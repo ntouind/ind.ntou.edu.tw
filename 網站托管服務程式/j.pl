@@ -10,12 +10,12 @@ require "readform.pl";
 
 $pop3="/root/www/cgi-bin/pop3";
 
-#$admit{'name'};	´y­z©m¦W
-#$admit{'number'}	¨Ï¥ÎªÌ¾Ç¸¹
-#$admit{'s_pw'}		¨Ï¥ÎªÌ®Õ°È¦æ¬F±K½X
-#$admit{'ind_ac'}	±b¸¹
-#$admit{'ind_pw1'}	±K½X
-#$admit{'ind_pw2'}	±K½X¦A¦¸½T»{
+#$admit{'name'};	æè¿°å§“å
+#$admit{'number'}	ä½¿ç”¨è€…å­¸è™Ÿ
+#$admit{'s_pw'}		ä½¿ç”¨è€…æ ¡å‹™è¡Œæ”¿å¯†ç¢¼
+#$admit{'ind_ac'}	å¸³è™Ÿ
+#$admit{'ind_pw1'}	å¯†ç¢¼
+#$admit{'ind_pw2'}	å¯†ç¢¼å†æ¬¡ç¢ºèª
 $stu_name=$admit{'name'};
 $stu_kind=$admit{'RadioGroup'};
 $stu_id=$admit{'number'};
@@ -23,70 +23,70 @@ $stu_pw=$admit{'s_pw'};
 $ind_id=$admit{'ind_ac'};
 $ind_pw=$admit{'ind_pw1'};
 $ind_pw2=$admit{'ind_pw2'};
-#½T»{«DªÅ­È
+#ç¢ºèªéç©ºå€¼
 
-&errmsg("¦³Äæ¦ì¨S¶ñ¼g") unless($stu_kind && $stu_id && $stu_pw && $ind_id && $ind_pw && $ind_pw2 && $stu_name);
+&errmsg("æœ‰æ¬„ä½æ²’å¡«å¯«") unless($stu_kind && $stu_id && $stu_pw && $ind_id && $ind_pw && $ind_pw2 && $stu_name);
 
-#§âªÅ¥Õ¥h±¼
+#æŠŠç©ºç™½å»æ‰
 $stu_id=~s/[^\d\w]//gi;
 $ind_id=~s/[^\d\w]//gi;
-#¥h°£©Ç²Å¸¹
+#å»é™¤æ€ªç¬¦è™Ÿ
 $stu_name=~s/[\s\$\@\<>]//gi;
 
-#½T»{±b¸¹®æ¦¡ 3-12½X
-&errmsg("±b¸¹®æ¦¡¦³°İÃD") if ($ind_id&&!($ind_id =~ /^[a-z][a-z0-9]{2,11}$/));
-&errmsg("±b¸¹¦WºÙ¤£¦Xªk") if ($ind_id =~ /fuck|adm|sysop|administrator/);
-#¨â¦¸±K½X¿é¤J­n¤@¼Ë,®æ¦¡­n²Å¦X
-&errmsg("±K½X½Ğ­«·s¿é¤J") if($ind_pw ne $ind_pw2 || !($ind_pw =~/^[\w\d\,\.\/]{5,12}$/));
+#ç¢ºèªå¸³è™Ÿæ ¼å¼ 3-12ç¢¼
+&errmsg("å¸³è™Ÿæ ¼å¼æœ‰å•é¡Œ") if ($ind_id&&!($ind_id =~ /^[a-z][a-z0-9]{2,11}$/));
+&errmsg("å¸³è™Ÿåç¨±ä¸åˆæ³•") if ($ind_id =~ /fuck|adm|sysop|administrator/);
+#å…©æ¬¡å¯†ç¢¼è¼¸å…¥è¦ä¸€æ¨£,æ ¼å¼è¦ç¬¦åˆ
+&errmsg("å¯†ç¢¼è«‹é‡æ–°è¼¸å…¥") if($ind_pw ne $ind_pw2 || !($ind_pw =~/^[\w\d\,\.\/]{5,12}$/));
 
-&errmsg("©m¦W/³Æµù ªø«×¤Óªø") unless($stu_name =~ /^.{0,40}$/);
+&errmsg("å§“å/å‚™è¨» é•·åº¦å¤ªé•·") unless($stu_name =~ /^.{0,40}$/);
 sleep 3;
 
 
-#check ¨­¥÷
-$stu_id=lc($stu_id); #Âà´«¦¨¤p¼g
-$ind_id=lc($ind_id); #Âà´«¦¨¤p¼g
+#check èº«ä»½
+$stu_id=lc($stu_id); #è½‰æ›æˆå°å¯«
+$ind_id=lc($ind_id); #è½‰æ›æˆå°å¯«
 
-&errmsg("¨­¥÷¤£²Å¦X¡A¤£²Å¦X¤j¾Ç³¡¾Ç¸¹") if($stu_kind==1 && !($stu_id=~/^b(\d{8}|\d{3}\w\d{4})$/));
-&errmsg("¨­¥÷¤£²Å¦X¡A¤£²Å¦X¬ã¨s¥Í¾Ç¸¹") if($stu_kind==2 && !($stu_id=~/^[dm][\d]{8}$/));
-&errmsg("¨­¥÷¤£²Å¦X¡A¤£²Å¦X©]®Õ¥Í¾Ç¸¹") if($stu_kind==3 && !($stu_id=~/^n[\d]{8}$/));
-&errmsg("¨­¥÷¤£²Å¦X¡A¤£²Å¦X¶i­×³¡¾Ç¸¹") if($stu_kind==4 && !($stu_id=~/^e[\d\w]{8}$/));
-&errmsg("¨­¥÷¤£²Å¦X¡A¤£²Å¦X±ĞÂ¾­û¾Ç¸¹") if($stu_kind==5 && ($stu_id=~/^((e[\d\w]{8})|(n[\d]{8})|([dm][\d]{8})|(b(\d{8}|\d{3}\w\d{4})))$/));
+&errmsg("èº«ä»½ä¸ç¬¦åˆï¼Œä¸ç¬¦åˆå¤§å­¸éƒ¨å­¸è™Ÿ") if($stu_kind==1 && !($stu_id=~/^b(\d{8}|\d{3}\w\d{4})$/));
+&errmsg("èº«ä»½ä¸ç¬¦åˆï¼Œä¸ç¬¦åˆç ”ç©¶ç”Ÿå­¸è™Ÿ") if($stu_kind==2 && !($stu_id=~/^[dm][\d]{8}$/));
+&errmsg("èº«ä»½ä¸ç¬¦åˆï¼Œä¸ç¬¦åˆå¤œæ ¡ç”Ÿå­¸è™Ÿ") if($stu_kind==3 && !($stu_id=~/^n[\d]{8}$/));
+&errmsg("èº«ä»½ä¸ç¬¦åˆï¼Œä¸ç¬¦åˆé€²ä¿®éƒ¨å­¸è™Ÿ") if($stu_kind==4 && !($stu_id=~/^e[\d\w]{8}$/));
+&errmsg("èº«ä»½ä¸ç¬¦åˆï¼Œä¸ç¬¦åˆæ•™è·å“¡å­¸è™Ÿ") if($stu_kind==5 && ($stu_id=~/^((e[\d\w]{8})|(n[\d]{8})|([dm][\d]{8})|(b(\d{8}|\d{3}\w\d{4})))$/));
 
 $now=`date`;
 open(FC,">>/root/www/cgi-bin/everytry.log");
-print FC "¾Ç¸¹ $stu_id ¹Á¸Õ¥Ó½Ğ±b¸¹ :$now";
+print FC "å­¸è™Ÿ $stu_id å˜—è©¦ç”³è«‹å¸³è™Ÿ :$now";
 close FC;
 
 
-#®Õ°È¦æ¬F±K½X»{ÃÒ
+#æ ¡å‹™è¡Œæ”¿å¯†ç¢¼èªè­‰
 $pass=0;
 
-# Á×§K¶Ç¤J°Ñ¼Æ¥i¥H±±¨î¨t²Î¡A¨Ï¥Î shell_quote Perl Module ³B²z°Ñ¼Æ
+# é¿å…å‚³å…¥åƒæ•¸å¯ä»¥æ§åˆ¶ç³»çµ±ï¼Œä½¿ç”¨ shell_quote Perl Module è™•ç†åƒæ•¸
 $stu_id = shell_quote($stu_id);
 $stu_pw = shell_quote($stu_pw);
 
 $auth = `$pop3 mail.ntou.edu.tw $stu_id $stu_pw`;
-$pass=1 if ($auth =~ /»{ÃÒ³q¹L/);
-&errmsg("®ü¤j¶l§½(®Õ°È¦æ¬F)±b¸¹©Î±K½X¿ù»~") unless($pass);
-print "®ü¤j¶l§½(®Õ°È¦æ¬F)±b¸¹»{ÃÒ¦¨¥\\<br>";
+$pass=1 if ($auth =~ /èªè­‰é€šé/);
+&errmsg("æµ·å¤§éƒµå±€(æ ¡å‹™è¡Œæ”¿)å¸³è™Ÿæˆ–å¯†ç¢¼éŒ¯èª¤") unless($pass);
+print "æµ·å¤§éƒµå±€(æ ¡å‹™è¡Œæ”¿)å¸³è™Ÿèªè­‰æˆåŠŸ\<br>";
 
 
 
-#check±b¸¹¦s¦b
-$admit{'number'}=lc($admit{'number'}); #Âà´«¦¨¤p¼g
+#checkå¸³è™Ÿå­˜åœ¨
+$admit{'number'}=lc($admit{'number'}); #è½‰æ›æˆå°å¯«
 open FP,"</etc/master.passwd" or die $!;
 while(<FP>)
 {
 next unless($_);
 next if($_=~/^#/);
-&errmsg($stu_id."¤w¥Ó½Ğ¹L¤F") if($_=~ /$stu_id/i) ;
-$id=(split(/:/))[0];	#²Ä¤@¦æ ¤]´N¬O±b¸¹
-&errmsg($ind_id."±b¸¹¤w¦s¦b") if($ind_id eq $id) ;
+&errmsg($stu_id."å·²ç”³è«‹éäº†") if($_=~ /$stu_id/i) ;
+$id=(split(/:/))[0];	#ç¬¬ä¸€è¡Œ ä¹Ÿå°±æ˜¯å¸³è™Ÿ
+&errmsg($ind_id."å¸³è™Ÿå·²å­˜åœ¨") if($ind_id eq $id) ;
 }
 close FP;
 
-#±ĞÂ¾­ûªº¥Ø¿ı¤£¤@¼Ë
+#æ•™è·å“¡çš„ç›®éŒ„ä¸ä¸€æ¨£
 $dir="/home/err";
 if($stu_kind<=4){
 		$sdir="/home/class".substr($stu_id,1,2);
@@ -116,18 +116,18 @@ $cmd="/bin/rm -f $tmp";
 
 
 open(FC,">>/root/www/cgi-bin/addaccount.log");
-print FC "¾Ç¸¹ $stu_id ¡A´y­z ¡G$stu_name¡A¥Ó½Ğ±b¸¹$ind_id ¦¨¥\\ $now";
+print FC "å­¸è™Ÿ $stu_id ï¼Œæè¿° ï¼š$stu_nameï¼Œç”³è«‹å¸³è™Ÿ$ind_id æˆåŠŸ\ $now";
 close FC;
 
 print <<EOT;
-¾Ç¸¹¡G$stu_id<br>
-©m¦W:$stu_name<br>
-±b¸¹¡G$ind_id<br>
-¥Ø¿ı:$dir<br><br>
-ºô­¶ªÅ¶¡¤j¤p:50MB<br>
-¥Ó½Ğ¦¨¥\\!!!<br>
+å­¸è™Ÿï¼š$stu_id<br>
+å§“å:$stu_name<br>
+å¸³è™Ÿï¼š$ind_id<br>
+ç›®éŒ„:$dir<br><br>
+ç¶²é ç©ºé–“å¤§å°:50MB<br>
+ç”³è«‹æˆåŠŸ\!!!<br>
 <br>
-¦³¥ô¦ó°İÃD½Ğmailµ¹ <a href="http://140.121.80.15/admin.html">indºŞ²z­û</a>
+æœ‰ä»»ä½•å•é¡Œè«‹mailçµ¦ <a href="http://140.121.80.15/admin.html">indç®¡ç†å“¡</a>
 EOT
 exit(0);
 
