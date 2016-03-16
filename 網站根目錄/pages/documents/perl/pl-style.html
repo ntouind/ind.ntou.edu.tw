@@ -1,0 +1,74 @@
+<title>PERL -- Style</title>
+<H3>Style</H3>
+Each programmer will, of course, have his or her own preferences in regards
+to formatting, but there are some general guidelines that will make your
+programs easier to read.
+<ol>
+<li>Just because you CAN do something a particular way doesn't mean that
+you SHOULD do it that way.
+<I>Perl</I>
+is designed to give you several ways to do anything, so consider picking
+the most readable one.
+For instance
+
+	<A HREF=pl-exp-io.html#open>open</A>(FOO,$foo) || <A HREF=pl-exp-sys.html#die>die</A> "Can't <A HREF=pl-exp-io.html#open>open</A> $foo: <A HREF=pl-predef.html#$!>$!</A>";
+
+is better than
+
+	<A HREF=pl-exp-sys.html#die>die</A> "Can't <A HREF=pl-exp-io.html#open>open</A> $foo: <A HREF=pl-predef.html#$!>$!</A>" unless <A HREF=pl-exp-io.html#open>open</A>(FOO,$foo);
+
+because the second way hides the main point of the statement in a
+modifier.
+On the other hand
+
+	<A HREF=pl-exp-io.html#print>print</A> "Starting analysis\n" <A HREF=pl-compound.html#if>if</A> $verbose;
+
+is better than
+
+	$verbose &amp;&amp; <A HREF=pl-exp-io.html#print>print</A> "Starting analysis\n";
+
+since the main point isn't whether the user typed -v or not.
+<p>
+Similarly, just because an operator lets you assume default arguments
+doesn't mean that you have to make use of the defaults.
+The defaults are there for lazy systems programmers writing one-shot
+programs.
+If you want your program to be readable, consider supplying the argument.
+<p>
+Along the same lines, just because you
+<I>can</I>
+omit parentheses in many places doesn't mean that you ought to:
+<pre>
+	<A HREF=pl-exp-flow.html#return>return</A> <A HREF=pl-exp-io.html#print>print</A> <A HREF=pl-exp-arr.html#reverse>reverse</A> <A HREF=pl-exp-arr.html#sort>sort</A> num <A HREF=pl-exp-arr.html#values>values</A> array;
+	<A HREF=pl-exp-flow.html#return>return</A> <A HREF=pl-exp-io.html#print>print</A>(<A HREF=pl-exp-arr.html#reverse>reverse</A>(<A HREF=pl-exp-arr.html#sort>sort</A> num (<A HREF=pl-exp-arr.html#values>values</A>(%array))));
+</pre>
+When in doubt, parenthesize.
+At the very least it will let some poor schmuck bounce on the % key in vi.
+<p>
+Even if you aren't in doubt, consider the mental welfare of the person who
+has to maintain the code after you, and who will probably put parens in
+the wrong place.
+<li>Don't go through silly contortions to exit a loop at the top or the
+bottom, when
+<I>perl</I>
+provides the "<A HREF=pl-exp-flow.html#last>last</A>" operator so you can exit in the middle.
+Just outdent it a little to make it more visible:
+<pre>
+    line:
+	<A HREF=pl-compound.html#for>for</A> (;;) {
+	    statements;
+	<A HREF=pl-exp-flow.html#last>last</A> line <A HREF=pl-compound.html#if>if</A> $foo;
+	    <A HREF=pl-exp-flow.html#next>next</A> line <A HREF=pl-compound.html#if>if</A> /^#/;
+	    statements;
+	}
+</pre>
+<li>Don't be afraid to use loop labels--they're there to enhance readability as
+well as to allow multi-level loop breaks.
+See last example.
+<li>For portability, when using features that may not be implemented on every
+machine, test the construct in an <A HREF=pl-exp-str.html#eval>eval</A> to see if it fails.
+If you know what version or patchlevel a particular feature was implemented,
+you can test <A HREF=pl-predef.html#$]>$]</A> to see if it will be there.
+<li>Choose mnemonic identifiers.
+<li>Be consistent.
+</ol>

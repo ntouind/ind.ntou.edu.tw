@@ -1,0 +1,90 @@
+<title>PERL -- Interprocess Communication</title>
+<H3>Interprocess Communication</H3>
+The IPC facilities of perl are built on the Berkeley socket mechanism.
+If you don't have sockets, you can ignore this section.
+The calls have the same names as the corresponding system calls,
+but the arguments tend to differ, for two reasons.
+First, perl file handles work differently than C file descriptors.
+Second, perl already knows the length of its strings, so you don't need
+to pass that information.
+Here is a sample client (untested):
+<pre>
+	($them,$port) = @ARGV;
+	$port = 2345 unless $port;
+	$them = 'localhost' unless $them;
+
+	$SIG{'INT'} = 'dokill';
+	sub dokill { <A HREF=pl-exp-sys.html#kill>kill</A> 9,$child <A HREF=pl-compound.html#if>if</A> $child; }
+
+	<A HREF=pl-exp-misc.html#require>require</A> 'sys/socket.ph';
+
+	$sockaddr = 'S n a4 x8';
+	<A HREF=pl-exp-str.html#chop>chop</A>($hostname = `hostname`);
+
+	($name, $aliases, $proto) = <A HREF=pl-exp-info.html#getprotobyname>getprotobyname</A>('tcp');
+	($name, $aliases, $port) = getservbyname($port, 'tcp')
+		unless $port <A HREF=pl-exp-op.html#=~>=~</A> /^\d+$/;
+	($name, $aliases, $type, $len, $thisaddr) =
+					<A HREF=pl-exp-info.html#gethostbyname>gethostbyname</A>($hostname);
+	($name, $aliases, $type, $len, $thataddr) = <A HREF=pl-exp-info.html#gethostbyname>gethostbyname</A>($them);
+
+	$this = <A HREF=pl-exp-conv.html#pack>pack</A>($sockaddr, &amp;AF_INET, 0, $thisaddr);
+	$that = <A HREF=pl-exp-conv.html#pack>pack</A>($sockaddr, &amp;AF_INET, $port, $thataddr);
+
+	<A HREF=pl-exp-ipc.html#socket>socket</A>(S, &amp;PF_INET, &amp;SOCK_STREAM, $proto) || <A HREF=pl-exp-sys.html#die>die</A> "<A HREF=pl-exp-ipc.html#socket>socket</A>: <A HREF=pl-predef.html#$!>$!</A>";
+	<A HREF=pl-exp-ipc.html#bind>bind</A>(S, $this) || <A HREF=pl-exp-sys.html#die>die</A> "<A HREF=pl-exp-ipc.html#bind>bind</A>: <A HREF=pl-predef.html#$!>$!</A>";
+	<A HREF=pl-exp-ipc.html#connect>connect</A>(S, $that) || <A HREF=pl-exp-sys.html#die>die</A> "<A HREF=pl-exp-ipc.html#connect>connect</A>: <A HREF=pl-predef.html#$!>$!</A>";
+
+	<A HREF=pl-exp-io.html#select>select</A>(S); <A HREF=pl-predef.html#$|>$|</A> = 1; <A HREF=pl-exp-io.html#select>select</A>(stdout);
+
+	<A HREF=pl-compound.html#if>if</A> ($child = <A HREF=pl-exp-sys.html#fork>fork</A>) {
+		<A HREF=pl-compound.html#while>while</A> (&lt;&gt;) {
+			<A HREF=pl-exp-io.html#print>print</A> S;
+		}
+		<A HREF=pl-exp-sys.html#sleep>sleep</A> 3;
+		<A HREF=pl-exp-flow.html#do>do</A> dokill();
+	}
+	else {
+		<A HREF=pl-compound.html#while>while</A> (&lt;S&gt;) {
+			print;
+		}
+	}
+</pre>
+And here's a server:
+<pre>
+	($port) = @ARGV;
+	$port = 2345 unless $port;
+
+	<A HREF=pl-exp-misc.html#require>require</A> 'sys/socket.ph';
+
+	$sockaddr = 'S n a4 x8';
+
+	($name, $aliases, $proto) = <A HREF=pl-exp-info.html#getprotobyname>getprotobyname</A>('tcp');
+	($name, $aliases, $port) = getservbyname($port, 'tcp')
+		unless $port <A HREF=pl-exp-op.html#=~>=~</A> /^\d+$/;
+
+	$this = <A HREF=pl-exp-conv.html#pack>pack</A>($sockaddr, &amp;AF_INET, $port, "\0\0\0\0");
+
+	<A HREF=pl-exp-io.html#select>select</A>(NS); <A HREF=pl-predef.html#$|>$|</A> = 1; <A HREF=pl-exp-io.html#select>select</A>(stdout);
+
+	<A HREF=pl-exp-ipc.html#socket>socket</A>(S, &amp;PF_INET, &amp;SOCK_STREAM, $proto) || <A HREF=pl-exp-sys.html#die>die</A> "<A HREF=pl-exp-ipc.html#socket>socket</A>: <A HREF=pl-predef.html#$!>$!</A>";
+	<A HREF=pl-exp-ipc.html#bind>bind</A>(S, $this) || <A HREF=pl-exp-sys.html#die>die</A> "<A HREF=pl-exp-ipc.html#bind>bind</A>: <A HREF=pl-predef.html#$!>$!</A>";
+	<A HREF=pl-exp-ipc.html#listen>listen</A>(S, 5) || <A HREF=pl-exp-sys.html#die>die</A> "connect: <A HREF=pl-predef.html#$!>$!</A>";
+
+	<A HREF=pl-exp-io.html#select>select</A>(S); <A HREF=pl-predef.html#$|>$|</A> = 1; <A HREF=pl-exp-io.html#select>select</A>(stdout);
+
+	<A HREF=pl-compound.html#for>for</A> (;;) {
+		<A HREF=pl-exp-io.html#print>print</A> "Listening again\n";
+		($addr = <A HREF=pl-exp-ipc.html#accept>accept</A>(NS,S)) || <A HREF=pl-exp-sys.html#die>die</A> $!;
+		<A HREF=pl-exp-io.html#print>print</A> "<A HREF=pl-exp-ipc.html#accept>accept</A> ok\n";
+
+		($af,$port,$inetaddr) = <A HREF=pl-exp-conv.html#unpack>unpack</A>($sockaddr,$addr);
+		@inetaddr = <A HREF=pl-exp-conv.html#unpack>unpack</A>('C4',$inetaddr);
+		<A HREF=pl-exp-io.html#print>print</A> "$af $port @inetaddr\n";
+
+		<A HREF=pl-compound.html#while>while</A> (&lt;NS&gt;) {
+			print;
+			<A HREF=pl-exp-io.html#print>print</A> NS;
+		}
+	}
+</pre>

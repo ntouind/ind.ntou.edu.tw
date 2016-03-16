@@ -1,0 +1,38 @@
+<title>PERL -- Arithmetic Functions</title>
+<H3>Arithmetic Functions</H3>
+<dl compact>
+<p><dt><A NAME=atan>atan</A>2(Y,X)<dd>Returns the arctangent of Y/X in the range
+-PI to PI.
+<p><dt><A NAME=cos>cos</A>(EXPR)<dt><A NAME=cos EXPR>cos EXPR</A><dd>
+Returns the cosine of EXPR (expressed in radians).
+If EXPR is omitted takes cosine of <A HREF=pl-predef.html#$_>$_</A>.
+<p><dt><A NAME=exp>exp</A>(EXPR)<dt><A NAME=exp EXPR>exp EXPR</A><dd>
+Returns
+<I>e</I>
+to the power of EXPR.
+If EXPR is omitted, gives exp(<A HREF=pl-predef.html#$_>$_</A>).
+<p><dt><A NAME=int>int</A>(EXPR)<dt><A NAME=int EXPR>int EXPR</A><dd>
+Returns the integer portion of EXPR.
+If EXPR is omitted, uses <A HREF=pl-predef.html#$_>$_</A>.
+<p><dt><A NAME=log>log</A>(EXPR)<dt><A NAME=log EXPR>log EXPR</A><dd>
+Returns logarithm (base
+<I>e</I>)
+of EXPR.
+If EXPR is omitted, returns log of <A HREF=pl-predef.html#$_>$_</A>.
+<p><dt><A NAME=rand>rand</A>(EXPR)<dt>rand EXPR
+<dt><A NAME=rand>rand</A><dd>Returns a random fractional number between 0 and the value of EXPR.
+(EXPR should be positive.)
+If EXPR is omitted, returns a value between 0 and 1.
+See also srand().
+<p><dt><A NAME=sin>sin</A>(EXPR)<dt><A NAME=sin EXPR>sin EXPR</A><dd>
+Returns the sine of EXPR (expressed in radians).
+If EXPR is omitted, returns sine of <A HREF=pl-predef.html#$_>$_</A>.
+<p><dt><A NAME=sqrt>sqrt</A>(EXPR)<dt><A NAME=sqrt EXPR>sqrt EXPR</A><dd>
+Return the square root of EXPR.
+If EXPR is omitted, returns square root of <A HREF=pl-predef.html#$_>$_</A>.
+<p><dt><A NAME=srand>srand</A>(EXPR)<dt><A NAME=srand EXPR>srand EXPR</A><dd>
+Sets the random number seed for the
+<I>rand</I>
+operator.
+If EXPR is omitted, does srand(<A HREF=pl-exp-sys.html#time>time</A>).
+</dl>

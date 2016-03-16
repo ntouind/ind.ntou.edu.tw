@@ -1,0 +1,87 @@
+<title>PERL -- Packages</title>
+<H3>Packages</H3>
+Perl provides a mechanism for alternate namespaces to protect packages from
+stomping on each others variables.
+By default, a perl script starts compiling into the package known as "main".
+By use of the
+<I>package</I>
+declaration, you can switch namespaces.
+The scope of the package declaration is from the declaration itself to the end
+of the enclosing block (the same scope as the <A HREF=pl-exp-misc.html#local>local</A>() operator).
+Typically it would be the first declaration in a file to be included by
+the "<A HREF=pl-exp-misc.html#require>require</A>" operator.
+You can switch into a package in more than one place; it merely influences
+which symbol table is used by the compiler for the rest of that block.
+You can refer to variables and filehandles in other packages by prefixing
+the identifier with the package name and a single quote.
+If the package name is null, the "main" package as assumed.
+<P>
+Only identifiers starting with letters are stored in the packages symbol
+table.
+All other symbols are kept in package "main".
+In addition, the identifiers STDIN, STDOUT, STDERR, ARGV, ARGVOUT, ENV, INC
+and SIG are forced to be in package "main", even when used for
+other purposes than their built-in one.
+Note also that, if you have a package called "m", "s"
+or "y", the you can't use the qualified form of an identifier since it
+will be interpreted instead as a pattern match, a substitution
+or a translation.
+<P>
+Eval'ed strings are compiled in the package in which the <A HREF=pl-exp-str.html#eval>eval</A> was compiled
+in.
+(Assignments to $SIG{}, however, assume the signal handler specified is in the
+main package.
+Qualify the signal handler name if you wish to have a signal handler in
+a package.)
+For an example, examine perldb.pl in the perl library.
+It initially switches to the DB package so that the debugger doesn't interfere
+with variables in the script you are trying to debug.
+At various points, however, it temporarily switches back to the main package
+to evaluate various expressions in the context of the main package.
+<P>
+The symbol table for a package happens to be stored in the associative array
+of that name prepended with an underscore.
+The value in each entry of the associative array is
+what you are referring to when you use the *name notation.
+In fact, the following have the same effect (in package main, anyway),
+though the first is more
+efficient because it does the symbol table lookups at compile time:
+<pre>
+	<A HREF=pl-exp-misc.html#local>local</A>(*foo) = *bar;
+	<A HREF=pl-exp-misc.html#local>local</A>($_main{'foo'}) = $_main{'bar'};
+</pre>
+You can use this to print out all the variables in a package, for instance.
+Here is dumpvar.pl from the perl library:
+<pre>
+	package dumpvar;
+
+	sub main'dumpvar {
+	    ($package) = @_;
+	    <A HREF=pl-exp-misc.html#local>local</A>(*stab) = <A HREF=pl-exp-str.html#eval>eval</A>("*_$package");
+	    <A HREF=pl-compound.html#while>while</A> (($key,$val) = <A HREF=pl-exp-arr.html#each>each</A>(%stab)) {
+	        {
+	            <A HREF=pl-exp-misc.html#local>local</A>(*entry) = $val;
+	            <A HREF=pl-compound.html#if>if</A> (<A HREF=pl-exp-misc.html#defined>defined</A> $entry) {
+	                <A HREF=pl-exp-io.html#print>print</A> "\$$key = '$entry'\n";
+	            }
+	            <A HREF=pl-compound.html#if>if</A> (<A HREF=pl-exp-misc.html#defined>defined</A> @entry) {
+	                <A HREF=pl-exp-io.html#print>print</A> "\@$key = (\n";
+	                <A HREF=pl-compound.html#foreach>foreach</A> $num (<A HREF=pl-predef.html#$[>$[</A> .. $#entry) {
+	                    <A HREF=pl-exp-io.html#print>print</A> "  $num\t'",$entry[$num],"'\n";
+	                }
+	                <A HREF=pl-exp-io.html#print>print</A> ")\n";
+	            }
+	            <A HREF=pl-compound.html#if>if</A> ($key <A HREF=pl-exp-op.html#ne>ne</A> "_$package" &amp;&amp; <A HREF=pl-exp-misc.html#defined>defined</A> %entry) {
+	                <A HREF=pl-exp-io.html#print>print</A> "\%$key = (\n";
+	                <A HREF=pl-compound.html#foreach>foreach</A> $key (<A HREF=pl-exp-arr.html#sort>sort</A> <A HREF=pl-exp-arr.html#keys>keys</A>(%entry)) {
+	                    <A HREF=pl-exp-io.html#print>print</A> "  $key\t'",$entry{$key},"'\n";
+	                }
+	                <A HREF=pl-exp-io.html#print>print</A> ")\n";
+	            }
+	        }
+	    }
+	}
+</pre>
+Note that, even though the subroutine is compiled in package dumpvar, the
+name of the subroutine is qualified so that its name is inserted into package
+"main".

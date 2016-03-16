@@ -1,0 +1,167 @@
+<title>PERL -- File Operations</title>
+<H3>File Operations</H3>
+
+<dl compact>
+<p><dt><A NAME=chmod>chmod</A>(LIST)<dt><A NAME=chmod LIST>chmod LIST</A><dd>
+Changes the permissions of a list of files.
+The first element of the list must be the numerical mode.
+Returns the number of files successfully changed.
+<pre>
+	$cnt = chmod 0755, 'foo', 'bar';
+	chmod 0755, @executables;
+</pre>
+<p><dt><A NAME=chown>chown</A>(LIST)<dt><A NAME=chown LIST>chown LIST</A><dd>
+Changes the owner (and group) of a list of files.
+The first two elements of the list must be the NUMERICAL uid and gid,
+in that order.
+Returns the number of files successfully changed.
+<pre>
+	$cnt = chown $uid, $gid, 'foo', 'bar';
+	chown $uid, $gid, @filenames;
+</pre>
+Here's an example that looks up non-numeric uids in the passwd file:
+<pre>
+	<A HREF=pl-exp-io.html#print>print</A> "User: ";
+	$user = &lt;STDIN&gt;;
+	<A HREF=pl-exp-str.html#chop>chop</A>($user);
+	<A HREF=pl-exp-io.html#print>print</A> "Files: "
+	$pattern = &lt;STDIN&gt;;
+	<A HREF=pl-exp-str.html#chop>chop</A>($pattern);
+	<A HREF=pl-exp-io.html#open>open</A>(pass, '/etc/passwd')
+		|| <A HREF=pl-exp-sys.html#die>die</A> "Can't open passwd: $!\n";
+	<A HREF=pl-compound.html#while>while</A> (&lt;pass&gt;) {
+		($login,$pass,$uid,$gid) = <A HREF=pl-exp-arr.html#split>split</A>(/:/);
+		$uid{$login} = $uid;
+		$gid{$login} = $gid;
+	}
+	@ary = &lt;${pattern}&gt;;	# get filenames
+	<A HREF=pl-compound.html#if>if</A> ($uid{$user} <A HREF=pl-exp-op.html#eq>eq</A> '') {
+		<A HREF=pl-exp-sys.html#die>die</A> "$user not in passwd file";
+	}
+	else {
+		chown $uid{$user}, $gid{$user}, @ary;
+	}
+</pre>
+<p><dt><A NAME=link>link</A>(OLDFILE,NEWFILE)<dd>Creates a new filename linked to the old filename.
+Returns 1 for success, 0 otherwise.
+<p><dt><A NAME=lstat>lstat</A>(FILEHANDLE)<dt>lstat FILEHANDLE
+<dt><A NAME=lstat>lstat</A>(EXPR)<dt><A NAME=lstat SCALARVARIABLE>lstat SCALARVARIABLE</A><dd>
+Does the same thing as the stat() function, but stats a symbolic link
+instead of the file the symbolic link points to.
+If symbolic links are unimplemented on your system, a normal stat is done.
+<p><dt><A NAME=mkdir>mkdir</A>(FILENAME,MODE)<dd>Creates the directory specified by FILENAME, with permissions specified by
+MODE (as modified by <A HREF=pl-exp-sys.html#umask>umask</A>).
+If it succeeds it returns 1, otherwise it returns 0 and sets <A HREF=pl-predef.html#$!>$!</A> (errno).
+<p><dt><A NAME=readlink>readlink</A>(EXPR)<dt><A NAME=readlink EXPR>readlink EXPR</A><dd>
+Returns the value of a symbolic link, if symbolic links are implemented.
+If not, gives a fatal error.
+If there is some system error, returns the undefined value and sets <A HREF=pl-predef.html#$!>$!</A> (errno).
+If EXPR is omitted, uses <A HREF=pl-predef.html#$_>$_</A>.
+<p><dt><A NAME=recv>recv</A>(SOCKET,SCALAR,LEN,FLAGS)<dd>Receives a message on a socket.
+Attempts to receive LENGTH bytes of data into variable SCALAR from the specified
+SOCKET filehandle.
+Returns the address of the sender, or the undefined value if there's an error.
+SCALAR will be grown or shrunk to the length actually read.
+Takes the same flags as the system call of the same name.
+<p><dt><A NAME=rename>rename</A>(OLDNAME,NEWNAME)<dd>Changes the name of a file.
+Returns 1 for success, 0 otherwise.
+Will not work across filesystem boundaries.
+<p><dt><A NAME=rmdir>rmdir</A>(FILENAME)<dt><A NAME=rmdir FILENAME>rmdir FILENAME</A><dd>
+Deletes the directory specified by FILENAME if it is empty.
+If it succeeds it returns 1, otherwise it returns 0 and sets <A HREF=pl-predef.html#$!>$!</A> (errno).
+If FILENAME is omitted, uses <A HREF=pl-predef.html#$_>$_</A>.
+<p><dt><A NAME=select>select</A>(RBITS,WBITS,EBITS,TIMEOUT)<dd>This calls the select system call with the bitmasks specified, which can
+be constructed using <A HREF=pl-exp-io.html#fileno>fileno</A>() and <A HREF=pl-exp-conv.html#vec>vec</A>(), along these lines:
+<pre>
+	$rin = $win = $ein = '';
+	<A HREF=pl-exp-conv.html#vec>vec</A>($rin,fileno(STDIN),1) = 1;
+	<A HREF=pl-exp-conv.html#vec>vec</A>($win,fileno(STDOUT),1) = 1;
+	$ein = $rin | $win;
+</pre>
+If you want to select on many filehandles you might wish to write a subroutine:
+<pre>
+	sub fhbits {
+	    <A HREF=pl-exp-misc.html#local>local</A>(@fhlist) = <A HREF=pl-exp-arr.html#split>split</A>(' ',$_[0]);
+	    <A HREF=pl-exp-misc.html#local>local</A>($bits);
+	    <A HREF=pl-compound.html#for>for</A> (@fhlist) {
+		<A HREF=pl-exp-conv.html#vec>vec</A>($bits,fileno(<A HREF=pl-predef.html#$_>$_</A>),1) = 1;
+	    }
+	    $bits;
+	}
+	$rin = &amp;fhbits('STDIN TTY SOCK');
+</pre>
+The usual idiom is:
+<pre>
+	($nfound,$timeleft) =
+	  <A HREF=pl-exp-io.html#select>select</A>($rout=$rin, $wout=$win, $eout=$ein, $timeout);
+</pre>
+or to block until something becomes ready:
+<pre>
+	$nfound = <A HREF=pl-exp-io.html#select>select</A>($rout=$rin, $wout=$win,
+				$eout=$ein, undef);
+</pre>
+Any of the bitmasks can also be undef.
+The timeout, if specified, is in seconds, which may be fractional.
+NOTE: not all implementations are capable of returning the $timeleft.
+If not, they always return $timeleft equal to the supplied $timeout.
+<p><dt><A NAME=stat>stat</A>(FILEHANDLE)<dt>stat FILEHANDLE
+<dt><A NAME=stat>stat</A>(EXPR)<dt><A NAME=stat SCALARVARIABLE>stat SCALARVARIABLE</A><dd>
+Returns a 13-element array giving the statistics for a file, either the file
+opened via FILEHANDLE, or named by EXPR.
+Returns a null list if the stat fails.
+Typically used as follows:
+<pre>
+    ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+       $atime,$mtime,$ctime,$blksize,$blocks)
+           = stat($filename);
+</pre>
+If stat is passed the special filehandle consisting of an underline,
+no stat is done, but the current contents of the stat structure from
+the last stat or filetest are returned.
+Example:
+<pre>
+	<A HREF=pl-compound.html#if>if</A> (<A HREF=pl-exp-op.html#-x>-x</A> $file &amp;&amp; (($d) = stat(_)) &amp;&amp; $d &lt; 0) {
+		<A HREF=pl-exp-io.html#print>print</A> "$file is executable NFS file\n";
+	}
+</pre>
+(This only works on machines for which the device number is negative under NFS.)
+<p><dt><A NAME=symlink>symlink</A>(OLDFILE,NEWFILE)<dd>Creates a new filename symbolically linked to the old filename.
+Returns 1 for success, 0 otherwise.
+On systems that don't support symbolic links, produces a fatal error at
+run time.
+To check for that, use eval:
+<pre>
+	$symlink_exists = (<A HREF=pl-exp-str.html#eval>eval</A> 'symlink("","");', <A HREF=pl-predef.html#$@>$@</A> <A HREF=pl-exp-op.html#eq>eq</A> '');
+</pre>
+<p><dt><A NAME=truncate>truncate</A>(FILEHANDLE,LENGTH)<dt><A NAME=truncate(EXPR,LENGTH)>truncate(EXPR,LENGTH)</A><dd>
+Truncates the file opened on FILEHANDLE, or named by EXPR, to the specified
+length.
+Produces a fatal error if truncate isn't implemented on your system.
+<p><dt><A NAME=unlink>unlink</A>(LIST)<dt><A NAME=unlink LIST>unlink LIST</A><dd>
+Deletes a list of files.
+Returns the number of files successfully deleted.
+<pre>
+	$cnt = unlink 'a', 'b', 'c';
+	unlink @goners;
+	unlink &lt;*.bak&gt;;
+</pre>
+Note: unlink will not delete directories unless you are superuser and the
+<B>-U</B>
+flag is supplied to
+<I>perl</I>.
+Even if these conditions are met, be warned that unlinking a directory
+can inflict damage on your filesystem.
+Use rmdir instead.
+<p><dt><A NAME=utime>utime</A>(LIST)<dt><A NAME=utime LIST>utime LIST</A><dd>
+Changes the access and modification times on each file of a list of files.
+The first two elements of the list must be the NUMERICAL access and
+modification times, in that order.
+Returns the number of files successfully changed.
+The inode modification time of each file is set to the current time.
+Example of a "touch" command:
+<pre>
+	#!/usr/bin/perl
+	$now = time;
+	utime $now, $now, @ARGV;
+</pre>
+</dl>

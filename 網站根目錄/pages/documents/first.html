@@ -1,0 +1,39 @@
+<html>
+<body bgcolor="#ffffff">
+<title>中文 locale 問題</title>
+<center>
+<h1>中文 locale 問題</h1>
+</center>
+<hr>
+<a>請在命令列下以下指令</a>
+<pre>
+ind:~> locale
+LANG=
+LC_COLLATE="en_US.ISO8859-1"
+LC_CTYPE="en_US.ISO8859-1"
+LC_MONETARY="en_US.ISO8859-1"
+LC_NUMERIC="en_US.ISO8859-1"
+LC_TIME="en_US.ISO8859-1"
+LC_MESSAGES="en_US.ISO8859-1"
+LC_ALL=en_US.ISO8859-1
+ind:~>
+</pre>
+<a>若非以上所示, 請更改 locale 設定為 en_US.ISO8859-1</a>
+<pre>
+For tcsh, csh:
+	setenv LC_ALL en_US.ISO8859-1
+
+For sh, bash:
+	set LC_ALL=en_US.ISO8859-1
+	export LC_ALL
+
+可將其加入 /etc/csh.cshrc (for tcsh & csh) 或 /etc/exports (for sh & bash)
+裡, 以便在 users login 時讀取. 
+
+	<font color="ff0000">其他 locale type 可參照 /usr/lib/nls/loc 裡之說明 </font>
+</pre>
+<hr>
+<center>
+<a href="http://ind.ntou.edu.tw">[回主畫面]</a><a href="index.html">[回前畫面]</a><a href="http://ind.ntou.edu.tw/suggest/">[我有話要說]</a>
+</center>
+</html>

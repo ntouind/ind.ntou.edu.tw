@@ -1,0 +1,25 @@
+<html>
+<body bgcolor="#ffffff">
+<title>GNU C Compiler</title>
+<center>
+<h1>GNU C Compiler</h1>
+</center>
+<hr>
+<pre>
+make gcc 步驟 :
+
+	./configure
+	make LANGUAGES=c
+	make stage1
+	make CC="stage1/xgcc -Bstage1/" CFLAGS="-g -O2"
+	make stage2
+	make CC="stage2/xgcc -Bstage2/" CFLAGS="-g -O2"
+	make compare
+	make install CC="stage2/xgcc -Bstage2/" CFLAGS="-g -O" LANGUAGES="LIST"
+
+</pre>
+<hr>
+<center>
+<a href="http://ind.ntou.edu.tw">[回主畫面]</a><a href="index.html">[回前畫面]</a><a href="http://ind.ntou.edu.tw/suggest/">[我有話要說]</a>
+</center>
+</html>

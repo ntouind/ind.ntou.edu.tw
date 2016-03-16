@@ -1,0 +1,301 @@
+<title>PERL -- Options</title>
+<H3>Options</H3>
+Note: on first reading this section may not make much sense to you.  It's here
+at the front for easy reference.
+<P>
+A single-character option may be combined with the following option, if any.
+This is particularly useful when invoking a script using the #! construct which
+only allows one argument.  Example:
+<pre>
+	#!/usr/bin/perl -spi.bak	# same as -s -p -i.bak
+	...
+</pre>
+Options include:
+<dl COMPACT>
+<p><p><dt><B>-0</B><I>digits</I>
+<dd>specifies the record separator (<A HREF=pl-predef.html#$/>$/</A>) as an octal number.
+If there are no digits, the null character is the separator.
+Other switches may precede or follow the digits.
+For example, if you have a version of
+<I>find</I>
+which can print filenames terminated by the null character, you can say this:
+<pre>
+    find . -name '*.bak' -print0 | perl -n0e unlink
+</pre>
+The special value 00 will cause Perl to slurp files in paragraph mode.
+The value 0777 will cause Perl to slurp files whole since there is no
+legal character with that value.
+
+<p><p><dt><B>-a</B>
+<dd>turns on autosplit mode when used with a
+<B>-n</B>
+or
+<B>-p</B>.
+An implicit <A HREF=pl-exp-arr.html#split>split</A> command to the @F array
+is done as the first thing inside the implicit <A HREF=pl-compound.html#while>while</A> loop produced by
+the
+<B>-n</B>
+or
+<B>-p</B>.
+<pre>
+	perl -ane 'print <A HREF=pl-exp-arr.html#pop>pop</A>(@F), "\n";'
+</pre>
+is equivalent to
+<pre>
+	<A HREF=pl-compound.html#while>while</A> (&lt;&gt;) {
+		@F = <A HREF=pl-exp-arr.html#split>split</A>(' ');
+		<A HREF=pl-exp-io.html#print>print</A> <A HREF=pl-exp-arr.html#pop>pop</A>(@F), "\n";
+	}
+</pre>
+<p><p><dt><B>-c</B>
+<dd>causes
+<I>perl</I>
+to check the syntax of the script and then exit without executing it.
+<p><p><dt><B>-d</B>
+<dd>runs the script under the perl debugger.
+See the section on Debugging.
+<p><p><dt><B>-D</B><I>number</I>
+<dd>sets debugging flags.
+To watch how it executes your script, use
+<B>-D14</B>.
+(This only works if debugging is compiled into your
+<I>perl</I>.)
+Another nice value is <B>-D1024</B>, which lists your compiled syntax tree.
+And <B>-D512</B> displays compiled regular expressions.
+<p><p><dt><B>-e</B><I> commandline</I>
+<dd>may be used to enter one line of script.
+Multiple
+<B>-e</B>
+commands may be given to build up a multi-line script.
+If
+<B>-e</B>
+is given,
+<I>perl</I>
+will not look for a script filename in the argument list.
+<p><p><dt><B>-i</B><I>extension</I>
+<dd>specifies that files processed by the &lt;&gt; construct are to be edited
+in-place.
+It does this by renaming the input file, opening the output file by the
+same name, and selecting that output file as the default for <A HREF=pl-exp-io.html#print>print</A> statements.
+The extension, if supplied, is added to the name of the
+old file to make a backup copy.
+If no extension is supplied, no backup is made.
+Saying "perl -p -i.bak -e "s/foo/bar/;" ... " is the same as using
+the script:
+<pre>
+	#!/usr/bin/perl -pi.bak
+	s/foo/bar/;
+</pre>
+which is equivalent to
+<pre>
+	#!/usr/bin/perl
+	<A HREF=pl-compound.html#while>while</A> (&lt;&gt;) {
+		<A HREF=pl-compound.html#if>if</A> (<A HREF=pl-predef.html#$ARGV>$ARGV</A> <A HREF=pl-exp-op.html#ne>ne</A> $oldargv) {
+			<A HREF=pl-exp-file.html#rename>rename</A>(<A HREF=pl-predef.html#$ARGV>$ARGV</A>, <A HREF=pl-predef.html#$ARGV>$ARGV</A> . '.bak');
+			<A HREF=pl-exp-io.html#open>open</A>(ARGVOUT, "&gt;$ARGV");
+			<A HREF=pl-exp-io.html#select>select</A>(ARGVOUT);
+			$oldargv = $ARGV;
+		}
+		s/foo/bar/;
+	}
+	<A HREF=pl-compound.html#continue>continue</A> {
+	    print;	# this prints to original filename
+	}
+	<A HREF=pl-exp-io.html#select>select</A>(STDOUT);
+</pre>
+except that the
+<B>-i</B>
+form doesn't need to compare <A HREF=pl-predef.html#$ARGV>$ARGV</A> to $oldargv to know when
+the filename has changed.
+It does, however, use ARGVOUT for the selected filehandle.
+Note that
+<I>STDOUT</I>
+is restored as the default output filehandle after the loop.
+<P>
+You can use <A HREF=pl-exp-io.html#eof>eof</A> to locate the end of each input file, in case you want
+to append to each file, or reset line numbering (see example under <A HREF=pl-exp-io.html#eof>eof</A>).
+<p><p><dt><B>-I</B><I>directory</I>
+<dd>may be used in conjunction with
+<B>-P</B>
+to tell the C preprocessor where to look for include files.
+By default /usr/include and /usr/lib/perl are searched.
+<p><p><dt><B>-l</B><I>octnum</I>
+<dd>enables automatic line-ending processing.  It has two effects:
+first, it automatically chops the line terminator when used with
+<B>-n</B>
+or
+<B>-p ,</B>
+and second, it assigns <A HREF=pl-predef.html#$\>$\</A> to have the value of
+<I>octnum</I>
+so that any <A HREF=pl-exp-io.html#print>print</A> statements will have that line terminator added back on.  If
+<I>octnum</I>
+is omitted, sets <A HREF=pl-predef.html#$\>$\</A> to the current value of <A HREF=pl-predef.html#$/>$/</A>.
+For instance, to trim lines to 80 columns:
+<pre>
+	perl -lpe 'substr($_, 80) = ""'
+</pre>
+Note that the assignment <A HREF=pl-predef.html#$\>$\</A> = <A HREF=pl-predef.html#$/>$/</A> is done when the switch is processed,
+so the input record separator can be different than the output record
+separator if the
+<B>-l</B>
+switch is followed by a
+<B>-0</B>
+switch:
+<pre>
+	gnufind / -print0 | perl -ln0e 'print "found <A HREF=pl-predef.html#$_>$_</A>" if -p'
+</pre>
+This sets <A HREF=pl-predef.html#$\>$\</A> to newline and then sets <A HREF=pl-predef.html#$/>$/</A> to the null character.
+<p><p><dt><B>-n</B>
+<dd>causes
+<I>perl</I>
+to assume the following loop around your script, which makes it iterate
+over filename arguments somewhat like "sed -n" or <I>awk</I>:
+<pre>
+	<A HREF=pl-compound.html#while>while</A> (&lt;&gt;) {
+		...		# your script goes here
+	}
+</pre>
+Note that the lines are not printed by default.
+See
+<B>-p</B>
+to have lines printed.
+Here is an efficient way to delete all files older than a week:
+<pre>
+	gfind . -mtime +7 -print | perl -nle 'unlink;'
+</pre>
+This is faster than using the -exec switch of find because you don't have to
+start a process on every filename found.
+<p><p><dt><B>-p</B>
+<dd>causes
+<I>perl</I>
+to assume the following loop around your script, which makes it iterate
+over filename arguments somewhat like <I>sed</I>:
+<pre>
+	<A HREF=pl-compound.html#while>while</A> (&lt;&gt;) {
+		...		# your script goes here
+	} <A HREF=pl-compound.html#continue>continue</A> {
+		print;
+	}
+</pre>
+Note that the lines are printed automatically.
+To suppress printing use the
+<B>-n</B>
+switch.
+A
+<B>-p</B>
+overrides a
+<B>-n</B>
+switch.
+<p><p><dt><B>-P</B>
+<dd>causes your script to be run through the C preprocessor before
+compilation by
+<I>perl</I>.
+(Since both comments and cpp directives begin with the # character,
+you should avoid starting comments with any words recognized
+by the C preprocessor such as "if", "else" or "define".)
+<p><p><dt><B>-s</B>
+<dd>enables some rudimentary switch parsing for switches on the command line
+after the script name but before any filename arguments (or before a --).
+Any switch found there is removed from @ARGV and sets the corresponding variable in the
+<I>perl</I>
+script.
+The following script prints "true" if and only if the script is
+invoked with a -xyz switch.
+<pre>
+	#!/usr/bin/perl -s
+	<A HREF=pl-compound.html#if>if</A> ($xyz) { <A HREF=pl-exp-io.html#print>print</A> "true\n"; }
+</pre>
+<p><p><dt><B>-S</B>
+<dd>makes
+<I>perl</I>
+use the <A HREF=pl-env.html#PATH>PATH</A> environment variable to search for the script
+(unless the name of the script starts with a slash).
+Typically this is used to emulate #! startup on machines that don't
+support #!, in the following manner:
+<pre>
+	#!/usr/bin/perl
+	<A HREF=pl-exp-str.html#eval>eval</A> "<A HREF=pl-exp-sys.html#exec>exec</A> /usr/bin/perl -S <A HREF=pl-predef.html#$0>$0</A> <A HREF=pl-predef.html#$*>$*</A>"
+		<A HREF=pl-compound.html#if>if</A> $running_under_some_shell;
+</pre>
+The system ignores the first line and feeds the script to /bin/sh,
+which proceeds to try to execute the
+<I>perl</I>
+script as a shell script.
+The shell executes the second line as a normal shell command, and thus
+starts up the
+<I>perl</I>
+interpreter.
+On some systems <A HREF=pl-predef.html#$0>$0</A> doesn't always contain the full pathname,
+so the
+<B>-S</B>
+tells
+<I>perl</I>
+to search for the script if necessary.
+After
+<I>perl</I>
+locates the script, it parses the lines and ignores them because
+the variable $running_under_some_shell is never true.
+A better construct than <A HREF=pl-predef.html#$*>$*</A> would be ${1+"<A HREF=pl-predef.html#$@>$@</A>"}, which handles embedded spaces
+and such in the filenames, but doesn't work if the script is being interpreted
+by csh.
+In order to start up sh rather than csh, some systems may have to replace the
+#! line with a line containing just
+a colon, which will be politely ignored by perl.
+Other systems can't control that, and need a totally devious construct that
+will work under any of csh, sh or perl, such as the following:
+<pre>
+	<A HREF=pl-exp-str.html#eval>eval</A> '(<A HREF=pl-exp-sys.html#exit>exit</A> $?0)' &amp;&amp; <A HREF=pl-exp-str.html#eval>eval</A> 'exec /usr/bin/perl -S <A HREF=pl-predef.html#$0>$0</A> ${1+"<A HREF=pl-predef.html#$@>$@</A>"}'
+	&amp; <A HREF=pl-exp-str.html#eval>eval</A> 'exec /usr/bin/perl -S <A HREF=pl-predef.html#$0>$0</A> $argv:q'
+		<A HREF=pl-compound.html#if>if</A> 0;
+</pre>
+<p><p><dt><B>-u</B>
+<dd>causes
+<I>perl</I>
+to dump core after compiling your script.
+You can then take this core dump and turn it into an executable file
+by using the undump program (not supplied).
+This speeds startup at the expense of some disk space (which you can
+minimize by stripping the executable).
+(Still, a "hello world" executable comes out to about 200K on my machine.)
+If you are going to run your executable as a set-id program then you
+should probably compile it using taintperl rather than normal perl.
+If you want to execute a portion of your script before dumping, use the
+<A HREF=pl-exp-misc.html#dump>dump</A> operator instead.
+Note: availability of undump is platform specific and may not be available
+for a specific port of perl.
+<p><p><dt><B>-U</B>
+<dd>allows
+<I>perl</I>
+to do unsafe operations.
+Currently the only "unsafe" operations are the unlinking of directories while
+running as superuser, and running setuid programs with fatal taint checks
+turned into warnings.
+<p><p><dt><B>-v</B>
+<dd>prints the version and patchlevel of your
+<I>perl</I>
+executable.
+<p><p><dt><B>-w</B>
+<dd>prints warnings about identifiers that are mentioned only once, and scalar
+variables that are used before being set.
+Also warns about redefined subroutines, and references to undefined
+filehandles or filehandles opened readonly that you are attempting to
+write on.
+Also warns you if you use == on values that don't look like numbers, and if
+your subroutines recurse more than 100 deep.
+<p><p><dt><B>-x</B><I>directory</I>
+<dd>tells
+<I>perl</I>
+that the script is embedded in a message.
+Leading garbage will be discarded until the first line that starts
+with #! and contains the string "perl".
+Any meaningful switches on that line will be applied (but only one
+group of switches, as with normal #! processing).
+If a directory name is specified, Perl will switch to that directory
+before running the script.
+The
+<B>-x</B>
+switch only controls the the disposal of leading garbage.
+The script must be terminated with __END__ if there is trailing garbage
+to be ignored (the script can process any or all of the trailing garbage
+via the DATA filehandle if desired).
+</dl>

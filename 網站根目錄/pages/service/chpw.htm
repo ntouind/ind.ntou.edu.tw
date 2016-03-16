@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="../styles/layout.css" rel="stylesheet" type="text/css" />
+		<title>IND密碼修改</title>
+	</head>
+	<body>
+  	<div class="title"><img src="../images/item02.gif" alt='' border="0" />IND密碼修改</div>
+		<div class="scontent">
+ <form name="form1" method="post" action="/cgi-bin/cgiwrap/~root/chpw.pl">
+    <!--林博仁：bordercolor屬性不是標準規範屬性，待修正-->
+    <table width="505" border="1"  bordercolor="#339900">
+      <tr bgcolor="#3f7fff">
+        <td width="166" align="left" valign="top"><font color="#FFFFFF"size="2">你的帳號</font></td>
+        <td width="71" bgcolor="#CCCCCC" align="left" valign="top"> <font face="新細明體">
+          <input type='text' name='account' size='10' maxlength="20" />
+          </font></td>
+        <td width="246" bgcolor="#CCCCCC">輸入你在IND的帳號</td>
+      </tr>
+      <tr bgcolor="#3f7fff">
+        <td width="166" align="left" valign="top"><font color="#FFFFFF" size="2">舊密碼</font></td>
+        <td width="71" bgcolor="#CCCCCC" align="left" valign="top">
+		<input type='password' name='password_old' size='10' maxlength="20" />
+        </td>
+        <td width="246" bgcolor="#CCCCCC">&nbsp;</td>
+      </tr>
+      <tr bgcolor="#7f7fff">
+        <td width="166" align="left" valign="top"><font color="#FFFFFF" size="2">新密碼</font></td>
+        <td width="71" bgcolor="#CCCCCC" align="left" valign="top">
+		<input type='password' name='password_new' size='10' maxlength="20" />
+        </td>
+        <td width="246" bgcolor="#CCCCCC"> 請注意密碼最少5碼,至多15碼</td>
+      </tr>
+      <tr bgcolor="#7f7fff">
+        <td width="166" align="left" valign="top"><font color="#FFFFFF" size="2">新密碼(再打一次)</font></td>
+        <td width="71" bgcolor="#CCCCCC" align="left" valign="top">
+		<input type='password' name='password_new2' size='10' maxlength="20" />
+        </td>
+        <td width="246" bgcolor="#CCCCCC"><p>
+            請再一次輸入您的密碼</p></td>
+      </tr>
+	  <tr>
+        <td width="166" align="left" valign="top">&nbsp;</td>
+        <td width="71"  align="left" valign="top"><input type="submit" name="Submit" value="送出" />
+        </td>
+        <td width="246"><input type="reset" name="Submit2" value="取消" /></td>
+      </tr>
+    </table>
+
+    <p>
+          2005/11/28 update
+    </p>
+註：每次輸入都會被系統記錄
+
+  </form>
+
+
+		</div>
+	</body>
+</html>

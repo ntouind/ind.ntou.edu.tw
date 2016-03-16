@@ -1,0 +1,102 @@
+<title>PERL -- Setuid Scripts</title>
+<H3>Setuid Scripts</H3>
+<I>Perl</I>
+is designed to make it easy to write secure setuid and setgid scripts.
+Unlike shells, which are based on multiple substitution passes on each line
+of the script,
+<I>perl</I>
+uses a more conventional evaluation scheme with fewer hidden "gotchas".
+Additionally, since the language has more built-in functionality, it
+has to rely less upon external (and possibly untrustworthy) programs to
+accomplish its purposes.
+<P>
+In an unpatched 4.2 or 4.3bsd kernel, setuid scripts are intrinsically
+insecure, but this kernel feature can be disabled.
+If it is,
+<I>perl</I>
+can emulate the setuid and setgid mechanism when it notices the otherwise
+useless setuid/gid bits on perl scripts.
+If the kernel feature isn't disabled,
+<I>perl</I>
+will complain loudly that your setuid script is insecure.
+You'll need to either disable the kernel setuid script feature, or put
+a C wrapper around the script.
+<P>
+When perl is executing a setuid script, it takes special precautions to
+prevent you from falling into any obvious traps.
+(In some ways, a perl script is more secure than the corresponding
+C program.)
+Any command line argument, environment variable, or input is marked as
+"tainted", and may not be used, directly or indirectly, in any
+command that invokes a subshell, or in any command that modifies files,
+directories or processes.
+Any variable that is set within an expression that has previously referenced
+a tainted value also becomes tainted (even if it is logically impossible
+for the tainted value to influence the variable).
+For example:
+<pre>
+	$foo = shift;			# $foo is tainted
+	$bar = $foo,'bar';		# $bar is also tainted
+	$xxx = &lt;&gt;;		# Tainted
+	$path = $ENV{'PATH'};		# Tainted, but see below
+	$abc = 'abc';			# Not tainted
+
+	<A HREF=pl-exp-sys.html#system>system</A> "echo $foo";		# Insecure
+	<A HREF=pl-exp-sys.html#system>system</A> "/bin/echo", $foo;	# Secure (doesn't use sh)
+	<A HREF=pl-exp-sys.html#system>system</A> "echo $bar";		# Insecure
+	<A HREF=pl-exp-sys.html#system>system</A> "echo $abc";		# Insecure until <A HREF=pl-env.html#PATH>PATH</A> set
+
+	$ENV{'PATH'} = '/bin:/usr/bin';
+	$ENV{'IFS'} = '' <A HREF=pl-compound.html#if>if</A> $ENV{'IFS'} <A HREF=pl-exp-op.html#ne>ne</A> '';
+
+	$path = $ENV{'PATH'};		# Not tainted
+	<A HREF=pl-exp-sys.html#system>system</A> "echo $abc";		# Is secure now!
+
+	<A HREF=pl-exp-io.html#open>open</A>(FOO,"$foo");		# OK
+	<A HREF=pl-exp-io.html#open>open</A>(FOO,"&gt;$foo"); 		# Not OK
+
+	<A HREF=pl-exp-io.html#open>open</A>(FOO,"echo $foo|");		# Not OK, but...
+	<A HREF=pl-exp-io.html#open>open</A>(FOO,"-|") || <A HREF=pl-exp-sys.html#exec>exec</A> 'echo', $foo;	# OK
+
+	$zzz = `echo $foo`;		# Insecure, zzz tainted
+
+	<A HREF=pl-exp-file.html#unlink>unlink</A> $abc,$foo;		# Insecure
+	<A HREF=pl-exp-sys.html#umask>umask</A> $foo;			# Insecure
+
+	<A HREF=pl-exp-sys.html#exec>exec</A> "echo $foo";		# Insecure
+	<A HREF=pl-exp-sys.html#exec>exec</A> "echo", $foo;		# Secure (doesn't use sh)
+	<A HREF=pl-exp-sys.html#exec>exec</A> "sh", '-c', $foo;		# Considered secure, alas
+</pre>
+The taintedness is associated with each scalar value, so some elements
+of an array can be tainted, and others not.
+<P>
+If you try to do something insecure, you will get a fatal error saying 
+something like "Insecure dependency" or "Insecure PATH".
+Note that you can still write an insecure system call or exec,
+but only by explicitly doing something like the last example above.
+You can also bypass the tainting mechanism by referencing
+subpatterns--\c
+<I>perl</I>
+presumes that if you reference a substring using $1, $2, etc, you knew
+what you were doing when you wrote the pattern:
+<pre>
+	$ARGV[0] <A HREF=pl-exp-op.html#=~>=~</A> /^-P(\w+)$/;
+	$printer = $1;		# Not tainted
+</pre>
+This is fairly secure since \w+ doesn't match shell metacharacters.
+Use of .+ would have been insecure, but
+<I>perl</I>
+doesn't check for that, so you must be careful with your patterns.
+This is the ONLY mechanism for untainting user supplied filenames if you
+want to do file operations on them (unless you make <A HREF=pl-predef.html#$&gt;>$&gt;</A> equal to <A HREF=pl-predef.html#$&lt;>$&lt;</A>).
+<P>
+It's also possible to get into trouble with other operations that don't care
+whether they use tainted values.
+Make judicious use of the file tests in dealing with any user-supplied
+filenames.
+When possible, do opens and such after setting <A HREF=pl-predef.html#$&gt;>$&gt;</A> = <A HREF=pl-predef.html#$&lt;>$&lt;</A>.
+<I>Perl</I>
+doesn't prevent you from opening tainted filenames for reading, so be
+careful what you print out.
+The tainting mechanism is intended to prevent stupid mistakes, not to remove
+the need for thought.

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="../../styles/layout.css" rel="stylesheet" type="text/css" />
+		<title>IND 帳號申請</title>
+	</head>
+	<body>
+  	<div class="title"><img src="../../images/item02.gif" border="0" />IND 帳號申請</div>
+		<div class="scontent">
+			<div class="stitle">申請帳號資格</div>
+			海洋大學全體教職員學生都可自由申請<br><br>
+			<div class="stitle">IND 服務條款</div>
+			<ol>
+			<li>必須符合 <a href="http://ind.ntou.edu.tw/pages/service/tannet.htm" target="mainFrame">TANet使用規範</a></li>
+			<li>為了維持伺服器穩定 <font color="#FF0000">請勿在伺服器撰寫或執行 消耗大量系統資源的程式</font></li>
+			<li>請勿<font color="#FF0000">放置非法或情色檔案</font></li>
+			</ol>
+			<h3>如果違反以上規定，嚴重的話 會提報學校並依校規處理，並停止使用權力</h3>
+			備註
+			:<br>
+			1.學生帳號，信箱，網頁空間 在<font color="#FF0000">畢業後就不保留</font> 如需申請校友信箱 請恰<a href="http://alumni.ntou.edu.tw/service/index.html">校友信箱</a>
+			<br>
+			2.伺服器有時候可能會跳電或者是機器故障，雖然有做備份 可是仍可能發生資料遺失現象，<font color="#FF0000">請使用者備份您的資料</font> 避免您的寶貴資料消失 謝謝<br>最糟的情況 當資料遺失時 IND 可能沒辦法為您的資料回復 
+			<br>
+			<br>
+			<!--
+			<font color="#FF0000">網頁空間40MB</font> 信箱20MB  ps:教職員工或研究室如果有需要可以增加上限 需要請寄信給<a href="http://140.121.80.15/admin.html">管理員</a>
+			-->
+			<font color="#FF0000">網頁空間50MB</font> ps:教職員工或研究室如果有需要可以增加上限 需要請寄信給<a href="http://140.121.80.15/admin.html">管理員</a>
+			<br>
+			</p>
+  			<form name="form1" method="post" action="/cgi-bin/cgiwrap/~root/j.pl">
+  			<!--  <table width="650" border="1" bordercolor="#000000" align="center">-->
+      		<table width="680" border="1" bordercolor="#000000" >
+      			<tr bgcolor="#33FF66" bordercolor="#000000"> 
+        			<td width="166" height="21" align="left" valign="top"><font size="2" face="新細明體">選擇</font></td>
+        			<td bgcolor="#CCCCCC">&nbsp;</td>
+        			<td  bgcolor="#CCCCCC" align="left" valign="top"> <font face="新細明體"> 
+								<label><input type="radio" name="RadioGroup" value="1">大學部</label> 
+								<label><input type="radio" name="RadioGroup" value="2">研究生</label> 
+								<label><input type="radio" name="RadioGroup" value="3">夜校/在職專班</label> 
+								<label><input type="radio" name="RadioGroup" value="4">進修部</label>
+								<label><input type="radio" name="RadioGroup" value="5">老師或教職員</label> </td>
+      			</tr>
+      			<tr bgcolor="#33FF66" bordercolor="#000000"> 
+        			<td width="166" align="left" valign="top"><font face="新細明體">1.你的學號</font></td>
+        			<td width="70" bgcolor="#CCCCCC" align="left" valign="top"> <font face="新細明體"> 
+          			<input type=text name=number size=10 maxlength="9">
+          		</font></td>
+        			<td width="678" bgcolor="#CCCCCC"><font face="新細明體">這一欄輸入<font color=#ff0000><b>您的學號</b></font>，教職員請輸入<font color=#ff0000><b>您的海大信箱帳號</b></font>
+          		<br>
+          比如：B88570070。學號的大小寫沒有關係，您可以任意的輸入</font></td>
+      			</tr>
+     				<tr bgcolor="#33FF66" bordercolor="#000000">
+        			<td width="166" align="left" valign="top"><font face="新細明體">2.你的大名 / 稱呼
+/備註 </font></td>
+       				<td width="70" bgcolor="#CCCCCC" align="left" valign="top"> <font face="新細明體">
+          			<input type=text name=name size=10 maxlength="20">
+          			</font></td>
+        			<td width="678" bgcolor="#CCCCCC">如果密碼忘掉 或是其他事情
+都以這欄作為身份確認</td>
+      			</tr>
+
+      			<tr bgcolor="#33ff66" bordercolor="#000000"> 
+        			<td width="166" align="left" valign="top"><fontface="新細明體"> 
+          			3.校務信箱的密碼</font></td>
+        			<td width="70" bgcolor="#CCCCCC" align="left" valign="top"> <font face="新細明體"> 
+          			<input type=password name=s_pw size=10 maxlength="15">
+          			</font></td>
+        			<td width="678" bgcolor="#CCCCCC"> <p><font color="#000000" face="新細明體">這一欄請輸入<b><font color="#FF0000">您學校信箱的密碼</font></b>，不是教學務系統的密碼。 
+            			<b><font color="#FF0000">學校預設是您的身份證字號</font></b><br>
+            			</font><font color="#000000" face="新細明體">如果您想先變更您的<b><font color="#FF0000">學校信箱密碼</font></b> 
+            ，請按<a href="http://iis.ntou.edu.tw/changepass">這裡</a>。 </font></td>
+      			</tr>
+      			<tr bgcolor="#33ff66" bordercolor="#000000"> 
+        			<td width="166" align="left" valign="top"><p><font face="新細明體">4.要申請的IND帳號名稱</font></p></td>
+        			<td width="70" bgcolor="#CCCCCC" align="left" valign="top"> <font face="新細明體"> 
+          			<input type=text name=ind_ac size=10 maxlength="12">
+          			</font></td>
+        			<td width="678" bgcolor="#CCCCCC">最少長度為3碼,最多12碼，僅可使用<b>小寫英文及數字字元</b>，<b>第一個字需為英文字元</b></td>
+      			</tr>
+      			<tr bgcolor="#33ff66" bordercolor="#000000"> 
+        			<td width="166" align="left" valign="top"><font face="新細明體">5.IND帳號的密碼</font></td>
+        			<td width="70" bgcolor="#CCCCCC" align="left" valign="top"> <font face="新細明體"> 
+          			<input type=password name=ind_pw1 size=10 maxlength="15">
+          			</font></td>
+        			<td width="678" bgcolor="#CCCCCC"></b>請注意密碼最少5碼,至多15碼</td>
+      			</tr>
+      			<tr bgcolor="#33FF66" bordercolor="#000000"> 
+        			<td width="166" align="left" valign="top"><font face="新細明體">6.請再一次輸入密碼</font></td>
+        			<td width="70" bgcolor="#CCCCCC" align="left" valign="top"> <font face="新細明體"> 
+          			<input type=password name=ind_pw2 size=10 maxlength="12">
+          			</font></td>
+        			<td width="678" bgcolor="#CCCCCC"><p><font face="新細明體">請再一次輸入您的密碼，以確認您的密碼沒有輸入錯誤。</font></p></td>
+      			</tr>
+    			</table>
+    			<div align="center"><br>
+      			<input type="submit" name="Submit" value="確定">
+      			<input type="reset" name="Submit2" value="取消">
+    			</div>
+  			</form>
+  			<p>&nbsp;</p>
+		</div>	
+	</body>
+</html>

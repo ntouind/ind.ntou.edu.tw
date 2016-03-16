@@ -1,0 +1,119 @@
+<title>PERL -- TRAPS</title>
+<h2>TRAPS</h2>
+Accustomed
+<I>awk</I>
+users should take special note of the following:
+<ul>
+<li> Semicolons are required after all simple statements in
+<I>perl</I>
+(except at the end of a block).
+Newline is not a statement delimiter.
+<li> Curly brackets are required on ifs and whiles.
+<li> Variables begin with $ or @ in
+<I>perl</I>.
+<li> Arrays index from 0 unless you set <A HREF=pl-predef.html#$[>$[</A>.
+Likewise string positions in <A HREF=pl-exp-str.html#substr>substr</A>() and <A HREF=pl-exp-str.html#index>index</A>().
+<li> You have to decide whether your array has numeric or string indices.
+<li> Associative array values do not spring into existence upon mere reference.
+<li> You have to decide whether you want to use string or numeric comparisons.
+<li> Reading an input line does not <A HREF=pl-exp-arr.html#split>split</A> it for you.  You get to <A HREF=pl-exp-arr.html#split>split</A> it yourself
+to an array.
+And the
+<I>split</I>
+operator has different arguments.
+<li> The current input line is normally in $_, not <A HREF=pl-predef.html#$0>$0</A>.
+It generally does not have the newline stripped.
+(<A HREF=pl-predef.html#$0>$0</A> is the name of the program executed.)
+<li> <A HREF=pl-predef.html#$&lt;digit&gt;>$&lt;digit&gt;</A> does not refer to fields--it refers to substrings matched by the last
+match pattern.
+<li> The
+<I>print</I>
+statement does not add field and record separators unless you set
+<A HREF=pl-predef.html#$,>$,</A> and <A HREF=pl-predef.html#$\>$\</A>.
+<li> You must <A HREF=pl-exp-io.html#open>open</A> your files before you <A HREF=pl-exp-io.html#print>print</A> to them.
+<li> The range operator is "..", not comma.
+(The comma operator works as in C.)
+<li> The match operator is "<A HREF=pl-exp-op.html#=~>=~</A>", not "~".
+("~" is the one's complement operator, as in C.)
+<li> The exponentiation operator is "<A HREF=pl-exp-op.html#**>**</A>", not "^".
+("^" is the XOR operator, as in C.)
+<li> The concatenation operator is ".", not the null string.
+(Using the null string would render "/pat/ /pat/" unparsable,
+since the third slash would be interpreted as a division operator--the
+tokener is in fact slightly context sensitive for operators like /, ?, and &lt;.
+And in fact, . itself can be the beginning of a number.)
+<li> <I>Next</I>,
+<I>exit</I>
+and
+<I>continue</I>
+work differently.
+<li> The following variables work differently
+<pre>
+	  Awk			Perl
+	  ARGC			$#ARGV
+	  ARGV[0]		$0
+	  FILENAME		$ARGV
+	  FNR			$. - something
+	  FS			(whatever you like)
+	  NF			$#Fld, or some such
+	  NR			$.
+	  OFMT			$#
+	  OFS			$,
+	  ORS			$\
+	  RLENGTH		length(<A HREF=pl-predef.html#$&amp;>$&amp;</A>)
+	  RS			$/
+	  RSTART		length(<A HREF=pl-predef.html#$\`>$\`</A>)
+	  SUBSEP		$;
+</pre>
+<li> When in doubt, run the
+<I>awk</I>
+construct through a2p and see what it gives you.
+</ul>
+<P>
+Cerebral C programmers should take note of the following:
+<ul>
+<li> Curly brackets are required on ifs and whiles.
+<li> You should use "elsif" rather than "else if"
+<li> <I>Break</I>
+and
+<I>continue</I>
+become
+<I>last</I>
+and
+<I>next</I>,
+respectively.
+<li> There's no switch statement.
+<li> Variables begin with $ or @ in
+<I>perl</I>.
+<li> Printf does not implement *.
+<li> Comments begin with #, not /*.
+<li> You can't take the address of anything.
+<li> ARGV must be capitalized.
+<li> The "system" calls link, unlink, rename, etc. return nonzero for success, not 0.
+<li> Signal handlers deal with signal names, not numbers.
+</ul>
+<P>
+Seasoned
+<I>sed</I>
+programmers should take note of the following:
+<ul>
+<li> Backreferences in substitutions use $ rather than \.
+<li> The pattern matching metacharacters (, ), and | do not have backslashes in front.
+<li> The range operator is .. rather than comma.
+</ul>
+<P>
+Sharp shell programmers should take note of the following:
+<ul>
+<li> The backtick operator does variable interpretation without regard to the
+presence of single quotes in the command.
+<li> The backtick operator does no translation of the return value, unlike csh.
+<li> Shells (especially csh) do several levels of substitution on each command line.
+<I>Perl</I>
+does substitution only in certain constructs such as double quotes,
+backticks, angle brackets and search patterns.
+<li> Shells interpret scripts a little bit at a time.
+<I>Perl</I>
+compiles the whole program before executing it.
+<li> The arguments are available via @ARGV, not $1, $2, etc.
+<li> The environment is not automatically made available as variables.
+</ul>

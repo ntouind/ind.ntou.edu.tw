@@ -1,0 +1,82 @@
+<title>PERL -- Precedence</title>
+<H3>Precedence</H3>
+<I>Perl</I>
+operators have the following associativity and precedence:
+<pre>
+nonassoc	<A HREF=pl-exp-io.html#print>print</A> <A HREF=pl-exp-io.html#printf>printf</A> <A HREF=pl-exp-sys.html#exec>exec</A> <A HREF=pl-exp-sys.html#system>system</A> <A HREF=pl-exp-arr.html#sort>sort</A> reverse
+		<A HREF=pl-exp-file.html#chmod>chmod</A> <A HREF=pl-exp-file.html#chown>chown</A> <A HREF=pl-exp-sys.html#kill>kill</A> <A HREF=pl-exp-file.html#unlink>unlink</A> <A HREF=pl-exp-file.html#utime>utime</A> <A HREF=pl-exp-sys.html#die>die</A> return
+left		,
+right		= += -= *= etc.
+right		?:
+nonassoc	..
+left		||
+left		&amp;&amp;
+left		| ^
+left		&amp;
+nonassoc	== != <A HREF=pl-exp-op.html#&lt;=&gt;>&lt;=&gt;</A> <A HREF=pl-exp-op.html#eq>eq</A> <A HREF=pl-exp-op.html#ne>ne</A> cmp
+nonassoc	&<A HREF=pl-exp-op.html#lt>lt</A>; &<A HREF=pl-exp-op.html#gt>gt</A>; &<A HREF=pl-exp-op.html#lt>lt</A>;= &<A HREF=pl-exp-op.html#gt>gt</A>;= <A HREF=pl-exp-op.html#lt>lt</A> <A HREF=pl-exp-op.html#gt>gt</A> <A HREF=pl-exp-op.html#le>le</A> ge
+nonassoc	<A HREF=pl-exp-sys.html#chdir>chdir</A> <A HREF=pl-exp-sys.html#exit>exit</A> <A HREF=pl-exp-str.html#eval>eval</A> <A HREF=pl-exp-misc.html#reset>reset</A> <A HREF=pl-exp-sys.html#sleep>sleep</A> <A HREF=pl-exp-arith.html#rand>rand</A> umask
+nonassoc	-r -w <A HREF=pl-exp-op.html#-x>-x</A> etc.
+left		&lt;&lt; &gt;&gt;
+left		+ - .
+left		* / % x
+left		<A HREF=pl-exp-op.html#=~>=~</A> <A HREF=pl-exp-op.html#!~>!~</A> 
+right		! ~ and unary minus
+right		**
+nonassoc	++ --
+left		
+</pre>
+As mentioned earlier, if any list operator (print, etc.) or
+any unary operator (chdir, etc.)
+is followed by a left parenthesis as the next token on the same line,
+the operator and arguments within parentheses are taken to
+be of highest precedence, just like a normal function call.
+Examples:
+<pre>
+	<A HREF=pl-exp-sys.html#chdir>chdir</A> $foo || die;		# (<A HREF=pl-exp-sys.html#chdir>chdir</A> $foo) || die
+	<A HREF=pl-exp-sys.html#chdir>chdir</A>($foo) || die;		# (<A HREF=pl-exp-sys.html#chdir>chdir</A> $foo) || die
+	<A HREF=pl-exp-sys.html#chdir>chdir</A> ($foo) || die;		# (<A HREF=pl-exp-sys.html#chdir>chdir</A> $foo) || die
+	<A HREF=pl-exp-sys.html#chdir>chdir</A> +($foo) || die;		# (<A HREF=pl-exp-sys.html#chdir>chdir</A> $foo) || die
+</pre>
+but, because * is higher precedence than ||:
+<pre>
+	<A HREF=pl-exp-sys.html#chdir>chdir</A> $foo * 20;		# <A HREF=pl-exp-sys.html#chdir>chdir</A> ($foo * 20)
+	<A HREF=pl-exp-sys.html#chdir>chdir</A>($foo) * 20;		# (<A HREF=pl-exp-sys.html#chdir>chdir</A> $foo) * 20
+	<A HREF=pl-exp-sys.html#chdir>chdir</A> ($foo) * 20;		# (<A HREF=pl-exp-sys.html#chdir>chdir</A> $foo) * 20
+	<A HREF=pl-exp-sys.html#chdir>chdir</A> +($foo) * 20;		# <A HREF=pl-exp-sys.html#chdir>chdir</A> ($foo * 20)
+
+	<A HREF=pl-exp-arith.html#rand>rand</A> 10 * 20;		# <A HREF=pl-exp-arith.html#rand>rand</A> (10 * 20)
+	<A HREF=pl-exp-arith.html#rand>rand</A>(10) * 20;		# (<A HREF=pl-exp-arith.html#rand>rand</A> 10) * 20
+	<A HREF=pl-exp-arith.html#rand>rand</A> (10) * 20;		# (<A HREF=pl-exp-arith.html#rand>rand</A> 10) * 20
+	<A HREF=pl-exp-arith.html#rand>rand</A> +(10) * 20;		# <A HREF=pl-exp-arith.html#rand>rand</A> (10 * 20)
+</pre>
+In the absence of parentheses,
+the precedence of list operators such as print, <A HREF=pl-exp-arr.html#sort>sort</A> or <A HREF=pl-exp-file.html#chmod>chmod</A> is
+either very high or very low depending on whether you look at the left
+side of operator or the right side of it.
+For example, in
+<pre>
+	@ary = (1, 3, <A HREF=pl-exp-arr.html#sort>sort</A> 4, 2);
+	<A HREF=pl-exp-io.html#print>print</A> @ary;		# prints 1324
+</pre>
+the commas on the right of the <A HREF=pl-exp-arr.html#sort>sort</A> are evaluated before the <A HREF=pl-exp-arr.html#sort>sort</A>, but
+the commas on the left are evaluated after.
+In other words, list operators tend to gobble up all the arguments that
+follow them, and then act like a simple term with regard to the preceding
+expression.
+Note that you have to be careful with parens:
+<pre>
+	# These evaluate <A HREF=pl-exp-sys.html#exit>exit</A> before doing the print:
+	print($foo, <A HREF=pl-exp-sys.html#exit>exit</A>);	# Obviously not what you want.
+	<A HREF=pl-exp-io.html#print>print</A> $foo, exit;	# Nor is this.
+
+	# These do the <A HREF=pl-exp-io.html#print>print</A> before evaluating exit:
+	(<A HREF=pl-exp-io.html#print>print</A> $foo), exit;	# This is what you want.
+	<A HREF=pl-exp-io.html#print>print</A>($foo), exit;	# Or this.
+	<A HREF=pl-exp-io.html#print>print</A> ($foo), exit;	# Or even this.
+
+Also note that
+
+	<A HREF=pl-exp-io.html#print>print</A> ($foo &amp; 255) + 1, "\n";
+</pre>
+probably doesn't do what you expect at first glance.

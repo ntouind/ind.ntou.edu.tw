@@ -1,0 +1,490 @@
+<title>PERL -- Data Types and Objects</title>
+<H3>Data Types and Objects</H3>
+<P>
+<I>Perl</I>
+has three data types: scalars, arrays of scalars, and
+associative arrays of scalars.
+Normal arrays are indexed by number, and associative arrays by string.
+<P>
+The interpretation of operations and values in perl sometimes
+depends on the requirements
+of the context around the operation or value.
+There are three major contexts: string, numeric and array.
+Certain operations return array values
+in contexts wanting an array, and scalar values otherwise.
+(If this is true of an operation it will be mentioned in the documentation
+for that operation.)
+Operations which return scalars don't care whether the context is looking
+for a string or a number, but
+scalar variables and values are interpreted as strings or numbers
+as appropriate to the context.
+A scalar is interpreted as TRUE in the boolean sense if it is not the null
+string or 0.
+Booleans returned by operators are 1 for true and 0 or '' (the null
+string) for false.
+<P>
+There are actually two varieties of null string: defined and undefined.
+Undefined null strings are returned when there is no real value for something,
+such as when there was an error, or at end of file, or when you refer
+to an uninitialized variable or element of an array.
+An undefined null string may become defined the first time you access it, but
+prior to that you can use the <A HREF=pl-exp-misc.html#defined>defined</A>() operator to determine whether the
+value is defined or not.
+<P>
+References to scalar variables always begin with '$', even when referring
+to a scalar that is part of an array.
+Thus:
+<pre>
+    $days		# a simple scalar variable
+    $days[28]		# 29th element of array @days
+    $days{'Feb'}	# one value from an associative array
+    $#days		# last index of array @days
+</pre>
+but entire arrays or array slices are denoted by '@':
+<pre>
+    @days		# ($days[0], $days[1],\|... $days[n])
+    @days[3,4,5]	# same as @days[3.\|.5]
+    @days{'a','c'}	# same as ($days{'a'},$days{'c'})
+</pre>
+and entire associative arrays are denoted by '%':
+<pre>
+    %days		# (key1, val1, key2, val2 ...)</pre>
+<P>
+Any of these eight constructs may serve as an lvalue,
+that is, may be assigned to.
+(It also turns out that an assignment is itself an lvalue in
+certain contexts--see examples under <A HREF="pl-exp-regex.html#s">s</A>, 
+<A HREF="pl-exp-regex.html#tr">tr</A> and 
+<A HREF="pl-exp-str.html#chop">chop</A>.)
+Assignment to a scalar evaluates the righthand side in a scalar context,
+while assignment to an array or array slice evaluates the righthand side
+in an array context.
+<P>
+You may find the length of array @days by evaluating
+"$#days", as in
+<I>csh</I>.
+(Actually, it's not the length of the array, it's the subscript of the last element, since there is (ordinarily) a 0th element.)
+Assigning to $#days changes the length of the array.
+Shortening an array by this method does not actually destroy any values.
+Lengthening an array that was previously shortened recovers the values that
+were in those elements.
+You can also gain some measure of efficiency by preextending an array that
+is going to get big.
+(You can also extend an array by assigning to an element that is off the
+end of the array.
+This differs from assigning to $#whatever in that intervening values
+are set to null rather than recovered.)
+You can truncate an array down to nothing by assigning the null list () to
+it.
+The following are exactly equivalent
+<pre>
+	@whatever = ();
+	$#whatever = <A HREF=pl-predef.html#$[>$[</A> - 1;
+</pre>
+If you evaluate an array in a scalar context, it returns the length of
+the array.
+The following is always true:
+<pre>
+	scalar(@whatever) == $#whatever - <A HREF=pl-predef.html#$[>$[</A> + 1;
+</pre>
+If you evaluate an associative array in a scalar context, it returns
+a value which is true if and only if the array contains any elements.
+(If there are any elements, the value returned is a string consisting
+of the number of used buckets and the number of allocated buckets, separated
+by a slash.)
+<P>
+Multi-dimensional arrays are not directly supported, but see the discussion
+of the <A HREF=pl-predef.html#$;>$;</A> variable later for a means of emulating multiple subscripts with
+an associative array.
+You could also write a subroutine to turn multiple subscripts into a single
+subscript.
+<P>
+Every data type has its own namespace.
+You can, without fear of conflict, use the same name for a scalar variable,
+an array, an associative array, a filehandle, a subroutine name, and/or
+a label.
+Since variable and array references always start with '$', '@',
+or '%', the "reserved" words aren't in fact reserved
+with respect to variable names.
+(They ARE reserved with respect to labels and filehandles, however, which
+don't have an initial special character.
+Hint: you could say <A HREF=pl-exp-io.html#open>open</A>(LOG,'logfile') rather than <A HREF=pl-exp-io.html#open>open</A>(log,'logfile').
+Using uppercase filehandles also improves readability and protects you
+from conflict with future reserved words.)
+Case IS significant--"FOO", "Foo" and "foo" are all
+different names.
+Names which start with a letter may also contain digits and underscores.
+Names which do not start with a letter are limited to one character,
+e.g. "<A HREF=pl-predef.html#$%>$%</A>" or "<A HREF=pl-predef.html#$$>$$</A>".
+(Most of the one character names have a predefined significance to
+<I>perl</I>.
+More later.)
+<P>
+Numeric literals are specified in any of the usual floating point or
+integer formats:
+<pre>
+    12345
+    12345.67
+    .23E-10
+    0xffff	# hex
+    0377	# octal
+    4_294_967_296
+</pre>
+String literals are delimited by either single or double quotes.
+They work much like shell quotes:
+double-quoted string literals are subject to backslash and variable
+substitution; single-quoted strings are not (except for \' and \e).
+The usual backslash rules apply for making characters such as newline, tab,
+etc., as well as some more exotic forms:
+<pre>
+	\t		tab
+	\n		newline
+	\r		return
+	\f		form feed
+	\b		backspace
+	\a		alarm (bell)
+	\e		escape
+	\033		octal char
+	\x1b		hex char
+	\c[		control char
+	\l		lowercase next char
+	\u		uppercase next char
+	\L		lowercase till \E
+	\U		uppercase till \E
+	\E		end case modification
+</pre>
+You can also embed newlines directly in your strings, i.e. they can end on
+a different line than they begin.
+This is nice, but if you forget your trailing quote, the error will not be
+reported until
+<I>perl</I>
+finds another line containing the quote character, which
+may be much further on in the script.
+Variable substitution inside strings is limited to scalar variables, normal
+array values, and array slices.
+(In other words, identifiers beginning with $ or @, followed by an optional
+bracketed expression as a subscript.)
+The following code segment prints out "The price is $100."
+<pre>
+    $Price = '$100';			# not interpreted
+    <A HREF=pl-exp-io.html#print>print</A> "The price is $Price.\n";	# interpreted
+</pre>
+
+Note that you can put curly brackets around the identifier to delimit it
+from following alphanumerics.
+Also note that a single quoted string must be separated from a preceding
+word by a space, since single quote is a valid character in an identifier
+(see Packages).
+<P>
+Two special literals are __LINE__ and __FILE__, which represent the current
+line number and filename at that point in your program.
+They may only be used as separate tokens; they will not be interpolated
+into strings.
+In addition, the token __END__ may be used to indicate the logical end of the
+script before the actual end of file.
+Any following text is ignored, but may be read via the DATA filehandle.
+(The DATA filehandle may read data only from the main script, but not from
+any required file or evaluated string.)
+The two control characters ^D and ^Z are synonyms for __END__.
+<P>
+A word that doesn't have any other interpretation in the grammar will be
+treated as if it had single quotes around it.
+For this purpose, a word consists only of alphanumeric characters and underline,
+and must start with an alphabetic character.
+As with filehandles and labels, a bare word that consists entirely of
+lowercase letters risks conflict with future reserved words, and if you
+use the
+<B>-w</B>
+switch, Perl will warn you about any such words.
+<P>
+Array values are interpolated into double-quoted strings by joining all the
+elements of the array with the delimiter specified in the $" variable,
+space by default.
+(Since in versions of perl prior to 3.0 the @ character was not a metacharacter
+in double-quoted strings, the interpolation of @array, $array[EXPR],
+@array[LIST], $array{EXPR}, or @array{LIST} only happens if array is
+referenced elsewhere in the program or is predefined.)
+The following are equivalent:
+<pre>
+	$temp = <A HREF=pl-exp-arr.html#join>join</A>($",@ARGV);
+	<A HREF=pl-exp-sys.html#system>system</A> "echo $temp";
+
+	<A HREF=pl-exp-sys.html#system>system</A> "echo <A HREF=pl-predef.html#@ARGV>@ARGV</A>";
+</pre>
+Within search patterns (which also undergo double-quotish substitution)
+there is a bad ambiguity:  Is /$foo[bar]/ to be
+interpreted as /${foo}[bar]/ (where [bar] is a character class for the
+regular expression) or as /${foo[bar]}/ (where [bar] is the subscript to
+array @foo)?
+If @foo doesn't otherwise exist, then it's obviously a character class.
+If @foo exists, perl takes a good guess about [bar], and is almost always right.
+If it does guess wrong, or if you're just plain paranoid,
+you can force the correct interpretation with curly brackets as above.
+<P>
+A line-oriented form of quoting is based on the shell here-is syntax.
+Following a &lt;&lt; you specify a string to terminate the quoted material, and all lines
+following the current line down to the terminating string are the value
+of the item.
+The terminating string may be either an identifier (a word), or some
+quoted text.
+If quoted, the type of quotes you use determines the treatment of the text,
+just as in regular quoting.
+An unquoted identifier works like double quotes.
+There must be no space between the &lt;&lt; and the identifier.
+(If you put a space it will be treated as a null identifier, which is
+valid, and matches the first blank line--see Merry Christmas example below.)
+The terminating string must appear by itself (unquoted and with no surrounding
+whitespace) on the terminating line.
+<pre>
+	<A HREF=pl-exp-io.html#print>print</A> &lt;&lt;EOF;		# same as above
+The price is $Price.
+EOF
+
+	<A HREF=pl-exp-io.html#print>print</A> &lt;&lt;"EOF";		# same as above
+The price is $Price.
+EOF
+
+	<A HREF=pl-exp-io.html#print>print</A> &lt;&lt; x 10;		# null identifier is delimiter
+Merry Christmas!
+
+	<A HREF=pl-exp-io.html#print>print</A> &lt;&lt;`EOC`;		# execute commands
+echo hi there
+echo lo there
+EOC
+
+	<A HREF=pl-exp-io.html#print>print</A> &lt;&lt;foo, &lt;&lt;bar;	# you can stack them
+I said foo.
+foo
+I said bar.
+bar
+</pre>
+Array literals are denoted by separating individual values by commas, and
+enclosing the list in parentheses:
+<pre>
+	(LIST)
+</pre>
+In a context not requiring an array value, the value of the array literal
+is the value of the final element, as in the C comma operator.
+For example,
+<pre>
+    @foo = ('cc', '-E', $bar);
+</pre>
+assigns the entire array value to array foo, but
+<pre>
+    $foo = ('cc', '-E', $bar);
+</pre>
+assigns the value of variable bar to variable foo.
+Note that the value of an actual array in a scalar context is the length
+of the array; the following assigns to $foo the value 3:
+<pre>
+    @foo = ('cc', '-E', $bar);
+    $foo = @foo;		# $foo gets 3
+</pre>
+You may have an optional comma before the closing parenthesis of an
+array literal, so that you can say:
+<pre>
+    @foo = (
+	1,
+	2,
+	3,
+    );
+</pre>
+When a LIST is evaluated, each element of the list is evaluated in
+an array context, and the resulting array value is interpolated into LIST
+just as if each individual element were a member of LIST.  Thus arrays
+lose their identity in a LIST--the list
+
+	(@foo,@bar,&amp;SomeSub)
+
+contains all the elements of @foo followed by all the elements of @bar,
+followed by all the elements returned by the subroutine named SomeSub.
+<P>
+A list value may also be subscripted like a normal array.
+Examples:
+<pre>
+	$time = (<A HREF=pl-exp-file.html#stat>stat</A>($file))[8];	# <A HREF=pl-exp-file.html#stat>stat</A> returns array value
+	$digit = ('a','b','c','d','e','f')[$digit-10];
+	<A HREF=pl-exp-flow.html#return>return</A> (<A HREF=pl-exp-arr.html#pop>pop</A>(@foo),<A HREF=pl-exp-arr.html#pop>pop</A>(@foo))[0];
+</pre>
+<P>
+Array lists may be assigned to if and only if each element of the list
+is an lvalue:
+<pre>
+    ($a, $b, $c) = (1, 2, 3);
+
+    ($map{'red'}, $map{'blue'}, $map{'green'}) = (0x00f, 0x0f0, 0xf00);
+</pre>
+The final element may be an array or an associative array:
+<pre>
+    ($a, $b, @rest) = split;
+    <A HREF=pl-exp-misc.html#local>local</A>($a, $b, %rest) = @_;
+</pre>
+You can actually put an array anywhere in the list, but the first array
+in the list will soak up all the values, and anything after it will get
+a null value.
+This may be useful in a <A HREF=pl-exp-misc.html#local>local</A>().
+<P>
+An associative array literal contains pairs of values to be interpreted
+as a key and a value:
+<pre>
+    # same as map assignment above
+    %map = ('red',0x00f,'blue',0x0f0,'green',0xf00);
+</pre>
+
+Array assignment in a scalar context returns the number of elements
+produced by the expression on the right side of the assignment:
+<pre>
+	$x = (($foo,$bar) = (3,2,1));	# set $x to 3, not 2
+</pre>
+<P>
+There are several other pseudo-literals that you should know about.
+If a string is enclosed by backticks (grave accents), it first undergoes
+variable substitution just like a double quoted string.
+It is then interpreted as a command, and the output of that command
+is the value of the pseudo-literal, like in a shell.
+In a scalar context, a single string consisting of all the output is
+returned.
+In an array context, an array of values is returned, one for each line
+of output.
+(You can set <A HREF=pl-predef.html#$/>$/</A> to use a different line terminator.)
+The command is executed each time the pseudo-literal is evaluated.
+The status value of the command is returned in <A HREF=pl-predef.html#$?>$?</A> (see Predefined Names
+for the interpretation of <A HREF=pl-predef.html#$?>$?</A>).
+Unlike in <I>csh</I>, no translation is done on the return
+data--newlines remain newlines.
+Unlike in any of the shells, single quotes do not hide variable names
+in the command from interpretation.
+To pass a $ through to the shell you need to hide it with a backslash.
+<P>
+Evaluating a filehandle in angle brackets yields the next line
+from that file (newline included, so it's never false until EOF, at
+which time an undefined value is returned).
+Ordinarily you must assign that value to a variable,
+but there is one situation where an automatic assignment happens.
+If (and only if) the input symbol is the only thing inside the conditional of a
+<I>while</I>
+loop, the value is
+automatically assigned to the variable "<A HREF=pl-predef.html#$_>$_</A>".
+(This may seem like an odd thing to you, but you'll use the construct
+in almost every
+<I>perl</I>
+script you write.)
+Anyway, the following lines are equivalent to each other:
+<pre>
+    <A HREF=pl-compound.html#while>while</A> (<A HREF=pl-predef.html#$_>$_</A> = &lt;STDIN&gt;) { print; }
+    <A HREF=pl-compound.html#while>while</A> (&lt;STDIN&gt;) { print; }
+    <A HREF=pl-compound.html#for>for</A> (;&lt;STDIN&gt;;) { print; }
+    <A HREF=pl-exp-io.html#print>print</A> <A HREF=pl-compound.html#while>while</A> <A HREF=pl-predef.html#$_>$_</A> = &lt;STDIN&gt;;
+    <A HREF=pl-exp-io.html#print>print</A> <A HREF=pl-compound.html#while>while</A> &lt;STDIN&gt;;
+</pre>
+The filehandles
+<I>STDIN</I> ,
+<I>STDOUT</I>
+and
+<I>STDERR</I>
+are predefined.
+(The filehandles
+<I>stdin</I>,
+<I>stdout</I>
+and
+<I>stderr</I>
+will also work except in packages, where they would be interpreted as
+local identifiers rather than global.)
+Additional filehandles may be created with the
+<I>open</I>
+function.
+<P>
+If a &lt;FILEHANDLE&gt; is used in a context that is looking for an array, an array
+consisting of all the input lines is returned, one line per array element.
+It's easy to make a LARGE data space this way, so use with care.
+<P>
+The null filehandle &lt;&gt; is special and can be used to emulate the behavior of
+<I>sed</I> and <I>awk</I>.
+Input from &lt;&gt; comes either from standard input, or from each file listed on
+the command line.
+Here's how it works: the first time &lt;&gt; is evaluated, the ARGV array is checked,
+and if it is null, $ARGV[0] is set to '-', which when opened gives you standard
+input.
+The ARGV array is then processed as a list of filenames.
+The loop
+<pre>
+	<A HREF=pl-compound.html#while>while</A> (&lt;&gt;) {
+		...			# code for each line
+	}
+</pre>
+is equivalent to the following Perl-like pseudo code:
+<pre>
+	<A HREF=pl-exp-arr.html#unshift>unshift</A>(@ARGV, '-') <A HREF=pl-compound.html#if>if</A> $#ARGV &lt; $[;
+	<A HREF=pl-compound.html#while>while</A> (<A HREF=pl-predef.html#$ARGV>$ARGV</A> = <A HREF=pl-exp-arr.html#shift>shift</A>) {
+		<A HREF=pl-exp-io.html#open>open</A>(ARGV, <A HREF=pl-predef.html#$ARGV>$ARGV</A>);
+		<A HREF=pl-compound.html#while>while</A> (&lt;ARGV&gt;) {
+			...		# code for each line
+		}
+	}
+</pre>
+except that it isn't as cumbersome to say, and will actually work.
+It really does shift array ARGV and put the current filename into
+variable ARGV.
+It also uses filehandle ARGV internally--&lt;&gt; is just a synonym for
+&lt;ARGV&gt;, which is magical.
+(The pseudo code above doesn't work because it treats &lt;ARGV&gt; as non-magical.)
+<P>
+You can modify <A HREF=pl-predef.html#@ARGV>@ARGV</A> before the first &lt;&gt; as long as the array ends up
+containing the list of filenames you really want.
+Line numbers ($.) continue as if the input was one big happy file.
+(But see example under <A HREF=pl-exp-io.html#eof>eof</A> for how to reset line numbers on each file.)
+<P>
+If you want to set <A HREF=pl-predef.html#@ARGV>@ARGV</A> to your own list of files, go right ahead.
+If you want to pass switches into your script, you can
+put a loop on the front like this:
+<pre>
+	<A HREF=pl-compound.html#while>while</A> (<A HREF=pl-predef.html#$_>$_</A> = $ARGV[0], /^-/) {
+		shift;
+	    <A HREF=pl-exp-flow.html#last>last</A> <A HREF=pl-compound.html#if>if</A> /^--$/;
+		/^-D(.*)/ &amp;&amp; ($debug = $1);
+		/^-v/ &amp;&amp; $verbose++;
+		...		# other switches
+	}
+	<A HREF=pl-compound.html#while>while</A> (&lt;&gt;) {
+		...		# code for each line
+	}
+</pre>
+The &lt;&gt; symbol will return FALSE only once.
+If you call it again after this it will assume you are processing another
+<A HREF=pl-predef.html#@ARGV>@ARGV</A> list, and if you haven't set <A HREF=pl-predef.html#@ARGV>@ARGV</A>, will input from
+<I>STDIN</I>.
+<P>
+If the string inside the angle brackets is a reference to a scalar variable
+(e.g. &lt;$foo&gt;),
+then that variable contains the name of the filehandle to input from.
+<P>
+If the string inside angle brackets is not a filehandle, it is interpreted
+as a filename pattern to be globbed, and either an array of filenames or the
+next filename in the list is returned, depending on context.
+One level of $ interpretation is done first, but you can't say &lt;$foo&gt;
+because that's an indirect filehandle as explained in the previous
+paragraph.
+You could insert curly brackets to force interpretation as a
+filename glob: &lt;${foo}&gt;.
+<p>
+Example:
+<pre>
+	<A HREF=pl-compound.html#while>while</A> (&lt;*.c&gt;) {
+		<A HREF=pl-exp-file.html#chmod>chmod</A> 0644, $_;
+	}
+</pre>
+is equivalent to
+<pre>
+	<A HREF=pl-exp-io.html#open>open</A>(foo, "echo *.c | tr -s ' \t\r\f' '\\012\\012\\012\\012'");
+	<A HREF=pl-compound.html#while>while</A> (&lt;foo&gt;) {
+		chop;
+		<A HREF=pl-exp-file.html#chmod>chmod</A> 0644, $_;
+	}
+</pre>
+In fact, it's currently implemented that way.
+(Which means it will not work on filenames with spaces in them unless
+you have /bin/csh on your machine.)
+Of course, the shortest way to do the above is:
+<pre>
+	<A HREF=pl-exp-file.html#chmod>chmod</A> 0644, &lt;*.c&gt;;
+</pre>

@@ -1,0 +1,24 @@
+<title>PERL -- Starting a Perl Script</title>
+<H3>Starting a Perl Script</H3>
+Upon startup,
+<I>perl</I>
+looks for your script in one of the following places:
+<OL>
+<LI>Specified line by line via
+<B>-e</B>
+switches on the command line.
+
+<LI>Contained in the file specified by the first filename on the command line.
+(Note that systems supporting the #! notation invoke interpreters this way.)
+
+<LI>Passed in implicitly via standard input.
+This only works if there are no filename arguments -- to pass
+arguments to a
+<I>stdin</I>
+script you must explicitly specify a - for the script name.
+</OL>
+<P>
+After locating your script,
+<I>perl</I>
+compiles it to an internal form.
+If the script is syntactically correct, it is executed.

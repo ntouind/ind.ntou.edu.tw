@@ -1,0 +1,26 @@
+<title>PERL -- ENVIRONMENT</title>
+<H2>ENVIRONMENT</H2>
+<dl compact>
+<p><dt><A NAME=HOME>HOME</A><dd>Used if <A HREF=pl-exp-sys.html#chdir>chdir</A> has no argument.
+<p><dt><A NAME=LOGDIR>LOGDIR</A><dd>Used if <A HREF=pl-exp-sys.html#chdir>chdir</A> has no argument and HOME is not set.
+<p><dt><A NAME=PATH>PATH</A><dd>Used in executing subprocesses, and in finding the script if -S
+is used.
+<p><dt><A NAME=PERLLIB>PERLLIB</A><dd>A colon-separated list of directories in which to look for Perl library
+files before looking in the standard library and the current directory.
+<p><dt><A NAME=PERLDB>PERLDB</A><dd>The command used to get the debugger code.  If unset, uses
+<pre>
+	<A HREF=pl-exp-misc.html#require>require</A> 'perldb.pl'
+</pre>
+</dl>
+<P>
+Apart from these,
+<I>perl</I>
+uses no other environment variables, except to make them available
+to the script being executed, and to child processes.
+However, scripts running setuid would do well to execute the following lines
+before doing anything else, just to keep people honest:
+<pre>
+    $ENV{'PATH'} = '/bin:/usr/bin';    # or whatever you need
+    $ENV{'SHELL'} = '/bin/sh' <A HREF=pl-compound.html#if>if</A> $ENV{'SHELL'} <A HREF=pl-exp-op.html#ne>ne</A> '';
+    $ENV{'IFS'} = '' <A HREF=pl-compound.html#if>if</A> $ENV{'IFS'} <A HREF=pl-exp-op.html#ne>ne</A> '';
+</pre>

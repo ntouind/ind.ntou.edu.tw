@@ -1,0 +1,87 @@
+<title>PERL -- Debugging</title>
+<H3>Debugging</H3>
+If you invoke
+<I>perl</I>
+with a
+<B>-d</B>
+switch, your script will be run under a debugging monitor.
+It will halt before the first executable statement and ask you for a
+command, such as:
+<dl compact>
+<p><dt><A NAME=h>h</A><dd>Prints out a help message.
+<p><dt><A NAME=T>T</A><dd>Stack trace.
+<p><dt><A NAME=s>s</A><dd>Single step.
+Executes until it reaches the beginning of another statement.
+<p><dt><A NAME=n>n</A><dd>Next.
+Executes over subroutine calls, until it reaches the beginning of the 
+next statement.
+<p><dt><A NAME=f>f</A><dd>Finish.
+Executes statements until it has finished the current subroutine.
+<p><dt><A NAME=c>c</A><dd>Continue.
+Executes until the next breakpoint is reached.
+<p><dt><A NAME=c>c</A> line<dd>Continue to the specified line.
+Inserts a one-time-only breakpoint at the specified line.
+<p><dt><A NAME=&lt;CR&gt;>&lt;CR&gt;</A><dd>Repeat last n or s.
+<p><dt><A NAME=l>l</A> min+incr<dd>List incr+1 lines starting at min.
+If min is omitted, starts where last listing left off.
+If incr is omitted, previous value of incr is used.
+<p><dt><A NAME=l>l</A> min-max<dd>List lines in the indicated range.
+<p><dt><A NAME=l>l</A> line<dd>List just the indicated line.
+<p><dt><A NAME=l>l</A><dd>List next window.
+<p><dt>-<dd>List previous window.
+<p><dt><A NAME=w>w</A> line<dd>List window around line.
+<p><dt><A NAME=l>l</A> subname<dd>List subroutine.
+If it's a long subroutine it just lists the beginning.
+Use "l" to list more.
+<p><dt><A NAME=/pattern/>/pattern/</A><dd>Regular expression search forward for pattern; the final / is optional.
+<p><dt><A NAME=?pattern?>?pattern?</A><dd>Regular expression search backward for pattern; the final ? is optional.
+<p><dt><A NAME=L>L</A><dd>List lines that have breakpoints or actions.
+<p><dt><A NAME=S>S</A><dd>Lists the names of all subroutines.
+<p><dt><A NAME=t>t</A><dd>Toggle trace mode on or off.
+<p><dt><A NAME=b>b</A> line condition<dd>Set a breakpoint.
+If line is omitted, sets a breakpoint on the 
+line that is about to be executed.
+If a condition is specified, it is evaluated each time the statement is
+reached and a breakpoint is taken only if the condition is true.
+Breakpoints may only be set on lines that begin an executable statement.
+<p><dt><A NAME=b>b</A> subname condition<dd>Set breakpoint at first executable line of subroutine.
+<p><<A NAME=d>d</A>t>d line<dd>Delete breakpoint.
+If line is omitted, deletes the breakpoint on the 
+line that is about to be executed.
+<p><dt><A NAME=D>D</A><dd>Delete all breakpoints.
+<p><dt><A NAME=a>a</A> line command<dd>Set an action for line.
+A multi-line command may be entered by backslashing the newlines.
+<p><dt><A NAME=A>A</A><dd>Delete all line actions.
+<p><dt><A NAME=&lt; command>&lt; command</A><dd>Set an action to happen before every debugger prompt.
+A multi-line command may be entered by backslashing the newlines.
+<p><dt><A NAME=&gt; command>&gt; command</A><dd>Set an action to happen after the prompt when you've just given a command
+to return to executing the script.
+A multi-line command may be entered by backslashing the newlines.
+<p><dt><A NAME=V>V</A> package<dd>List all variables in package.
+Default is main package.
+<p><dt><A NAME=! number>! number</A><dd>Redo a debugging command.
+If number is omitted, redoes the previous command.
+<p><dt><A NAME=! -number>! -number</A><dd>Redo the command that was that many commands ago.
+<p><dt><A NAME=H>H</A> -number<dd>Display last n commands.
+Only commands longer than one character are listed.
+If number is omitted, lists them all.
+<p><dt><A NAME=q>q</A> or ^D<dd>Quit.
+<p><dt><A NAME=command>command</A><dd>Execute command as a perl statement.
+A missing semicolon will be supplied.
+<p><dt><A NAME=p>p</A> expr<dd>Same as "<A HREF=pl-exp-io.html#print>print</A> DB'OUT expr".
+The DB'OUT filehandle is opened to /dev/tty, regardless of where STDOUT
+may be redirected to.
+</dl>
+<P>
+If you want to modify the debugger, copy perldb.pl from the perl library
+to your current directory and modify it as necessary.
+(You'll also have to put -I. on your command line.)
+You can do some customization by setting up a .perldb file which contains
+initialization code.
+For instance, you could make aliases like these:
+<pre>
+    $DB'alias{'len'} = 's/^len(.*)/p length($1)/';
+    $DB'alias{'stop'} = 's/^stop (at|in)/b/';
+    $DB'alias{'.'} =
+      's/^\./p "\$DB\'sub(\$DB\'line):\t",\$DB\'line[\$DB\'line]/';
+</pre>

@@ -1,0 +1,39 @@
+<title>PERL -- Syntax</title>
+<H3>Syntax</H3>
+<P>
+A
+<I>perl</I>
+script consists of a sequence of declarations and commands.
+The only things that need to be declared in
+<I>perl</I>
+are report formats and subroutines.
+See the sections below for more information on those declarations.
+All uninitialized user-created objects are assumed to
+start with a null or 0 value until they
+are defined by some explicit operation such as assignment.
+The sequence of commands is executed just once, unlike in
+<I>sed</I>
+and
+<I>awk</I>
+scripts, where the sequence of commands is executed for each input line.
+While this means that you must explicitly loop over the lines of your input file
+(or files), it also means you have much more control over which files and which
+lines you look at.
+(Actually, I'm lying--it is possible to do an implicit loop with either the
+<B>-n</B>
+or
+<B>-p</B>
+switch.)
+<P>
+A declaration can be put anywhere a command can, but has no effect on the
+execution of the primary sequence of commands--declarations all take effect
+at compile time.
+Typically all the declarations are put at the beginning or the end of the script.
+<P>
+<I>Perl</I>
+is, for the most part, a free-form language.
+(The only exception to this is format declarations, for fairly obvious reasons.)
+Comments are indicated by the # character, and extend to the end of the line.
+If you attempt to use /* */ C comments, it will be interpreted either as
+division or pattern matching, depending on the context.
+So don't do that.
