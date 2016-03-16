@@ -124,16 +124,7 @@ a:hover, a:active {
 	padding-bottom:40px;
 }
 
-#content #news {
-	float:left;
-	width:330px;
-	height:200px;
-	margin-left:20px;
-	font-size:14px;
-}
-
 #content #ann {
-	float:right;
 	width:330px;
 	height:200px;
 	margin-right:20px;
