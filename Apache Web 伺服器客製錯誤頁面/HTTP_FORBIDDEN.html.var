@@ -409,3 +409,22 @@ Body:----------tr--
 
 <!--#include virtual="include/bottom.html" -->
 ----------tr--
+
+Content-language: zh-tw
+Content-type: text/html; charset=UTF-8
+Body:----------zh-tw--
+<!--#set var="TITLE" value="禁止存取！"
+--><!--#include virtual="include/top.html" -->
+
+  <!--#if expr="v('REDIRECT_URL') =~ m:/$:" -->
+
+    您沒有權限存取請求的目錄。可能是沒有索引頁面文件或是目錄被上了讀取保護。
+
+  <!--#else -->
+
+    您沒有權限存取請求的物件。可能是物件被上了讀取保護或是無法被伺服器讀取。
+
+  <!--#endif -->
+
+<!--#include virtual="include/bottom.html" -->
+----------zh-tw--
