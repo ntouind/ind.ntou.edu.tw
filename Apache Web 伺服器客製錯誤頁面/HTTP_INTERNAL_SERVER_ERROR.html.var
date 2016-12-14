@@ -497,3 +497,27 @@ Body:----------tr--
 
 <!--#include virtual="include/bottom.html" -->
 ----------tr--
+
+Content-language: en
+Content-type: text/html; charset=UTF-8
+Body:----------en--
+<!--#set var="TITLE" value="發生伺服器端錯誤！"
+--><!--#include virtual="include/top.html" -->
+
+  <!--#if expr="-n v('REDIRECT_ERROR_NOTES')" -->
+
+    伺服器發生了一個內部錯誤而無法完成您的請求。
+
+    <!--#include virtual="include/spacer.html" -->
+
+    錯誤訊息：
+    <br /><!--#echo encoding="none" var="REDIRECT_ERROR_NOTES" -->
+
+  <!--#else -->
+
+    伺服器發生了一個內部錯誤而無法完成您的請求。伺服器可能超載或是在某個 CGI 程式腳本中有個錯誤。
+
+  <!--#endif -->
+
+<!--#include virtual="include/bottom.html" -->
+----------en--
