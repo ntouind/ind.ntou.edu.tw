@@ -125,3 +125,9 @@ Bunun bir sunucu hatas&#305; oldu&#287;unu dü&#351;ünüyorsan&#305;z, lütfen
 <a href="mailto:<!--#echo encoding="url" var="SERVER_ADMIN" -->">site
 yöneticisi</a> ile ileti&#351;ime geçin.
 ----------tr--
+
+Content-language: zh-tw
+Content-type: text/html; charset=UTF-8
+Body:----------zh-tw--
+若您認為這是個伺服器端的錯誤，請通知<a href="mailto:<!--#echo encoding="url" var="SERVER_ADMIN" -->">網站管理員</a>。
+----------zh-tw--
