@@ -462,3 +462,24 @@ Body:----------tr--
 
 <!--#include virtual="include/bottom.html" -->
 ----------tr--
+
+Content-language: zh-tw
+Content-type: text/html; charset=UTF-8
+Body:----------zh-tw--
+<!--#set var="TITLE" value="找不到物件！"
+--><!--#include virtual="include/top.html" -->
+
+    在這個伺服器中找不到您請求的 URL。
+
+  <!--#if expr="-n v('HTTP_REFERER')" -->
+
+    位於<a href="<!--#echo encoding="url" var="HTTP_REFERER" -->">referring（參照）頁面</a>的連結似乎錯了或過期了。請通知<a href="<!--#echo encoding="url" var="HTTP_REFERER" -->">該頁</a>的作者這個錯誤。
+
+  <!--#else -->
+
+    如果您自行輸入該 URL 的話請檢查您的拼字並再嘗試一遍。
+
+  <!--#endif -->
+
+<!--#include virtual="include/bottom.html" -->
+----------zh-tw--
