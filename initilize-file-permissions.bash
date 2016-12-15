@@ -32,11 +32,10 @@ set -o pipefail
 # Defensive Bash Programming - main function, program entry point
 # http://www.kfirlavi.com/blog/2012/11/14/defensive-bash-programming/
 main() {
-	find "$PROGRAM_DIRECTORY" -type d -exec chmod 0775 {} \;
-	find "$PROGRAM_DIRECTORY" -type f -exec chmod 0664 {} \;
-	find "$PROGRAM_DIRECTORY" -name '*.cgi' -exec chmod a+x {} ;\
-	find "$PROGRAM_DIRECTORY" -name '*.bash' -exec chmod a+x {} ;\
-	
+	find "$PROGRAM_DIRECTORY" -type d -exec chmod --changes 0775 {} \;
+	find "$PROGRAM_DIRECTORY" -type f \( ! -name '*.cgi' -a ! -name '*.pl' -a ! -name '*.bash' \) -exec chmod --changes 0664 {} \;
+	find "$PROGRAM_DIRECTORY" -name '*.cgi' -o -name '*.bash' -o -name '*.pl'  -exec chmod --changes 0775 {} \;
+
 	## 正常結束 script 程式
 	exit 0
 }
