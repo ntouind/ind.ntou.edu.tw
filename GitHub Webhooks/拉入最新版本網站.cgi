@@ -31,12 +31,12 @@ set -o pipefail
 # Defensive Bash Programming - main function, program entry point
 # http://www.kfirlavi.com/blog/2012/11/14/defensive-bash-programming/
 main() {
-	printf "Content-type: text/html\r\n\r\n";
-	printf "當前工作目錄：$(pwd)\n"
-	printf "執行身份：$(id)\n"
-	git reset --hard
-	git pull --force
-	git lfs pull
+	# CGI programming: the HTTP response header
+	printf "Content-type: text/plain; charset=utf-8\r\n\r\n";
+
+	sudo -g web-admin git reset --hard
+	sudo -g web-admin git pull --force
+	sudo -g web-admin git lfs pull
 
 	## 正常結束 script 程式
 	exit 0
