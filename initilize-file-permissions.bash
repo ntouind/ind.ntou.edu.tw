@@ -33,7 +33,7 @@ set -o pipefail
 # http://www.kfirlavi.com/blog/2012/11/14/defensive-bash-programming/
 main() {
 	find "$PROGRAM_DIRECTORY" -type d -exec chmod 0775 {} \;
-	find "$PROGRAM_DIRECTORY" -type r -exec chmod 0664 {} \;
+	find "$PROGRAM_DIRECTORY" -type f -exec chmod 0664 {} \;
 	find "$PROGRAM_DIRECTORY" -name '*.cgi' -exec chmod a+x {} ;\
 	
 	## 正常結束 script 程式
