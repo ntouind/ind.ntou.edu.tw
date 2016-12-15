@@ -15,7 +15,7 @@
 
 ## 作者<br>Authors
 * 本作品由國立台灣海洋大學網路發展協會之學生所作，惟至近期並沒有紀錄誰改了什麼
-* 目前有紀錄的作者請參考 [Contributors to ntouind/ind.ntou.edu.tw](https://github.com/ntouind/ind.ntou.edu.tw/graphs/contributors?from=2015-04-05&to=2016-12-15&type=c)
+* 目前有紀錄的作者請參考 [Contributors to ntouind/ind.ntou.edu.tw](https://github.com/ntouind/ind.ntou.edu.tw/graphs/contributors)
 
 ## 目前維護者<br>Current Maintainer
 林博仁 &lt;<Buo.Ren.Lin@gmail.com>&gt;
