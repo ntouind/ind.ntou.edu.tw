@@ -28,3 +28,4 @@
 ## 相關連結<br />Related links
 * [Original ind.ntou.edu.tw reverse engineering · ntouind/ind.ntou.edu.tw Wiki](https://github.com/ntouind/ind.ntou.edu.tw/wiki/Original-ind.ntou.edu.tw-reverse-engineering)
 * [ind.ntou.edu.tw 的 etckeeper 版本控制](https://github.com/ntouind/ind.ntou.edu.tw-etckeeper)（非對外公開）
+* [Home · ntouind/ind.ntou.edu.tw Wiki](https://github.com/ntouind/ind.ntou.edu.tw/wiki)
