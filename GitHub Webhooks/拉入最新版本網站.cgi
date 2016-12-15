@@ -34,11 +34,27 @@ main() {
 	# CGI programming: the HTTP response header
 	printf "Content-type: text/plain; charset=utf-8\r\n\r\n";
 
-	sudo -g web-admin git reset --hard
-	sudo -g web-admin git pull --force
-	sudo -g web-admin git lfs pull
+	printf "\n" &>"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.log"
+	printf "==== Webhook 前景程式於 $(date) 被執行 ====\n" &>"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.log"
+
+	# Run the job in background by calling it itself
+	if [ $PROGRAM_ARGUMENT_ORIGINAL_NUMBER -eq 0 ]; then
+		printf "啟動 Webhook 背景程式\n" &>"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.log"
+		"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}" the_argument &
+		disown
+	else
+		printf "\n" &>"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.log"
+		printf "==== Webhook 背景程式於 $(date) 被執行 ====\n" &>"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.log"
+		umask 002
+		sudo -g web-admin git reset --hard &>"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.log"
+		sudo -g web-admin git pull --force &>"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.log"
+		sudo -g web-admin git lfs pull &>"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.log"
+		printf "==== Webhook 背景程式結束 ====\n" &>"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.log"
+	fi
 
 	## 正常結束 script 程式
+	printf "\n" &>"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.log"
+	printf "==== Webhook 前景程式於 $(date) 結束 ====\n" &>"${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.log"
 	exit 0
 }
 main
