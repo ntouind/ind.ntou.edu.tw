@@ -35,6 +35,7 @@ main() {
 	find "$PROGRAM_DIRECTORY" -type d -exec chmod 0775 {} \;
 	find "$PROGRAM_DIRECTORY" -type f -exec chmod 0664 {} \;
 	find "$PROGRAM_DIRECTORY" -name '*.cgi' -exec chmod a+x {} ;\
+	find "$PROGRAM_DIRECTORY" -name '*.bash' -exec chmod a+x {} ;\
 	
 	## 正常結束 script 程式
 	exit 0
