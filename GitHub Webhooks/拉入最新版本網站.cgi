@@ -50,8 +50,8 @@ main() {
 		# http://stackoverflow.com/questions/1125968/how-to-force-git-pull-to-overwrite-local-files
 		git fetch --all &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
 		git clean -d -x -f &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
-		git reset --hard origin/master &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
-		git lfs pull origin &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
+		git reset --hard GitHub/master &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
+		git lfs pull GitHub &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
 		printf "==== Webhook 背景程式結束 ====\n" &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
 		exit 0
 	fi
