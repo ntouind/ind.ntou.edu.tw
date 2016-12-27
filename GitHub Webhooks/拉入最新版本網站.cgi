@@ -48,7 +48,7 @@ main() {
 		printf "==== Webhook 背景程式於 $(date) 被執行 ====\n" &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
 		# version control - How to force "git pull" to overwrite local files? - Stack Overflow
 		# http://stackoverflow.com/questions/1125968/how-to-force-git-pull-to-overwrite-local-files
-		git fetch --all &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
+		git fetch GitHub &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
 		git clean -d -x -f &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
 		git reset --hard GitHub/master &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
 		git lfs pull GitHub &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
