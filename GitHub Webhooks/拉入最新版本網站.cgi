@@ -36,7 +36,8 @@ main() {
 		# CGI programming: the HTTP response header
 		printf "Content-type: text/plain; charset=utf-8\r\n\r\n";
 
-		printf "\n"
+		printf "\n" # Print a blank line to separate from previous output
+
 		printf "==== Webhook 前景程式於 $(date) 被執行 ====\n"
 		printf "啟動 Webhook 背景程式。\n"
 		sudo -g web-admin "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}" the_argument >/dev/null &
