@@ -36,20 +36,22 @@ main() {
 		# CGI programming: the HTTP response header
 		printf "Content-type: text/plain; charset=utf-8\r\n\r\n";
 
-		printf "\n"
+		printf "\n" # Print a blank line to separate from previous output
+
 		printf "==== Webhook 前景程式於 $(date) 被執行 ====\n"
 		printf "啟動 Webhook 背景程式。\n"
-		sudo -g web-admin "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}" the_argument >/dev/null &
-		disown
+		nohup sudo -g web-admin "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}" the_argument
 		printf "==== Webhook 前景程式於 $(date) 結束 ====\n"
 		exit 0
 	else
 		printf "\n" &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
 		printf "==== Webhook 背景程式於 $(date) 被執行 ====\n" &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
-		umask 002
-		git reset --hard &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
-		git pull --force &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
-		git lfs pull &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
+		# version control - How to force "git pull" to overwrite local files? - Stack Overflow
+		# http://stackoverflow.com/questions/1125968/how-to-force-git-pull-to-overwrite-local-files
+		git fetch GitHub &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
+		git clean -d -x -f &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
+		git reset --hard GitHub/master &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
+		git lfs pull GitHub &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
 		printf "==== Webhook 背景程式結束 ====\n" &>> "${PROGRAM_DIRECTORY}/${PROGRAM_FILENAME}.background.log"
 		exit 0
 	fi
