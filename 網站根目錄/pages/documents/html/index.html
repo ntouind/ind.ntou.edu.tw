@@ -1,8 +1,21 @@
-<body bgcolor="white">
-<center><h1>網路發展學會HTML寫作入門講義</h1></center>
-<hr>
-<pre>
-<font size=+1><b>前     言：</b></font>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>
+			中文 locale 問題
+		</title>
+	</head>
+	<body bgcolor="white">
+		<center>
+			<h1>
+				網路發展學會HTML寫作入門講義
+			</h1>
+		</center>
+		<hr>
+		<pre>
+<font size="+1"><b>前     言：</b></font>
 
 　　你可知道什麼是HTML嗎?HTML的全名是Hypertext Markup Language 其中文意思
 是"超文件檔案標記語言"，既然是一種語言，當然要先知道要用什麼工具來撰寫了，
@@ -11,46 +24,92 @@ WORD轉譯軟體 ; FRONTPAGE直書軟體等。諸多撰寫軟體可視使用者�
 不過建議初學者不論用何種撰寫軟體書寫程式，最好先學會HTML之基本語法，方便日後
 修改等諸多好處。
 
-<font size=+1><b>一、架構解說：</b></font>
+<font size="+1"><b>一、架構解說：</b></font>
 
     每一個最小的HTML文件必需包含一個抬頭。而文件若要被當作HTML3.0，建議加一
 段前言宣告。如下列第一行：
 
 &lt;!DOCTYPE HTML PUBLIC"-//IETF//DTD HTML 3.0//EN"&gt;
-</PRE><PRE>
+</pre>
+		<pre>
 
 &lt;HTML&gt;....................................................................
                                                                                .
 &lt;HEAD&gt;.............................                                      .
-     				        .  這是HTML文件的起頭符號，可讓讀      .
-&lt;TITLE&gt;我是文件標題&lt;/TITLE&gt; .->文件的讀者了解此為程式的開頭。      .
+                    .  這是HTML文件的起頭符號，可讓讀      .
+&lt;TITLE&gt;我是文件標題&lt;/TITLE&gt; .-&gt;文件的讀者了解此為程式的開頭。      .
                                         .                                      .
 &lt;/HEAD&gt;............................                                      .基
                                                                                .本
 &lt;BODY&gt;.............................                                      .架
                                         .  這主體BODY元素的意思是指在文件      .構
-.........內容（請參考內容語法）         .->中的所有文字的開端，其包含所有文    .
+.........內容（請參考內容語法）         .-&gt;中的所有文字的開端，其包含所有文    .
                                         .  件的標題層文字，段落及表例等等。    .
 &lt;/BODY&gt;............................                                      .
                                                                                .
 &lt;/HTML&gt;...................................................................
-</PRE><PRE>
-<font size=+1><b>二、內容語法：</b></font>
+</pre>
+		<pre>
+<font size="+1"><b>二、內容語法：</b></font>
 
 a、標題層文字字型：
    語法：&lt;Hn&gt;...&lt;/Hn&gt;，n=1~6
    說明：從H1到H6有六個不同字型大小的設定，而這六個基本標題層的文字字型定義
          如下：
 </pre>
-<center>
-<table border=1>
-<tr><th>H1</th><td>粗體、最大字型，靠中、上下會有一行或二行空白行。</td></tr>
-<tr><th>H2</th><td>粗體，大字型，偏左，上下會有一行或二行空白行。</td></tr>
-<tr><th>H3</th><td>粗體，大字型，有點向左邊縮排，上下會有一行或二行空白行。</td></tr>
-<tr><th>H4</th><td>粗體，正常字型，向左邊縮排，上下會有一行空白行。</td></tr>
-<tr><th>H5</th><td>粗體，較小字型，向左邊縮排，上面會有一行空白行。</td></tr>
-<tr><th>H6</th><td>粗體，更小字型，向左邊縮排，上面會有一行空白行。</td></tr>
-</table></center><pre>
+		<center>
+			<table summary='' border="1">
+				<tr>
+					<th>
+						H1
+					</th>
+					<td>
+						粗體、最大字型，靠中、上下會有一行或二行空白行。
+					</td>
+				</tr>
+				<tr>
+					<th>
+						H2
+					</th>
+					<td>
+						粗體，大字型，偏左，上下會有一行或二行空白行。
+					</td>
+				</tr>
+				<tr>
+					<th>
+						H3
+					</th>
+					<td>
+						粗體，大字型，有點向左邊縮排，上下會有一行或二行空白行。
+					</td>
+				</tr>
+				<tr>
+					<th>
+						H4
+					</th>
+					<td>
+						粗體，正常字型，向左邊縮排，上下會有一行空白行。
+					</td>
+				</tr>
+				<tr>
+					<th>
+						H5
+					</th>
+					<td>
+						粗體，較小字型，向左邊縮排，上面會有一行空白行。
+					</td>
+				</tr>
+				<tr>
+					<th>
+						H6
+					</th>
+					<td>
+						粗體，更小字型，向左邊縮排，上面會有一行空白行。
+					</td>
+				</tr>
+			</table>
+		</center>
+		<pre>
    <a href="demoa.htm">範例</a>：&lt;H1&gt;我是H1標題&lt;H1&gt;
    可以用&lt;BaseFont Size=3&gt;來設定字型的「參考大小」，如Size=3相當於&lt;H4&gt;
    字型，然後再用&lt;Font Size=+3&gt;...&lt;/Font&gt;來調整大小?
@@ -92,14 +151,51 @@ f、有順序編號的表例：
    <a href="demof.htm">範例</a>：
    你也可以用&lt;OL type=A 或 a 或 I 或 i 或 1 &gt;來指定「順序」的編碼方式
 </pre>
-<center>
-<Table Border=1>
-<tr><th>TYPE=A</th><td>英文大寫。也就是A,B,C,...</td></tr>
-<tr><th>TYPE=a</th><td>英文小寫。也就是a,b,c,...</td></tr>
-<tr><th>TYPE=I</th><td>大寫羅馬字。也就是,I,II,III...</td></tr>
-<tr><th>TYPE=i</th><td>英文大寫。也就是i,ii,iii,...</td></tr>
-<tr><th>TYPE=1</th><td>英文大寫。也就是1,2,3,...</td></tr>
-</table></center><pre>
+		<center>
+			<table summary='' border="1">
+				<tr>
+					<th>
+						TYPE=A
+					</th>
+					<td>
+						英文大寫。也就是A,B,C,...
+					</td>
+				</tr>
+				<tr>
+					<th>
+						TYPE=a
+					</th>
+					<td>
+						英文小寫。也就是a,b,c,...
+					</td>
+				</tr>
+				<tr>
+					<th>
+						TYPE=I
+					</th>
+					<td>
+						大寫羅馬字。也就是,I,II,III...
+					</td>
+				</tr>
+				<tr>
+					<th>
+						TYPE=i
+					</th>
+					<td>
+						英文大寫。也就是i,ii,iii,...
+					</td>
+				</tr>
+				<tr>
+					<th>
+						TYPE=1
+					</th>
+					<td>
+						英文大寫。也就是1,2,3,...
+					</td>
+				</tr>
+			</table>
+		</center>
+		<pre>
 你也可以用 START 來指定起始編號。
 另外您也可以直接在&lt;/LI&gt;標記中用Type屬性來指定「順序」編碼方式，
 並且用Value來指定它的起始值。
@@ -127,11 +223,10 @@ h、印刷字體的標示符號：
 　　     &lt;Small&gt;...&lt;/Small&gt;<small>變小</small>
      　　&lt;Sup&gt;...&lt;/Sup&gt;<sup>上標</sup>
      　　&lt;Sub&gt;...&lt;/Sub&gt;<sub>下標</sub>
-     　　&lt;blink&gt;...&lt;/blink&gt;<BLINK>閃爍</BLINK>
      　　&lt;center&gt;...&lt;/center&gt;置中
      　　&lt;!--...--&gt;註解
          &lt;blockquote&gt;...&lt;/blockquote&gt;向右縮排5個空白字元
-         &ampnbsp;空白字元
+         &amp;nbsp;空白字元
    <a href="demoh.htm">範例</a>：
 
 i、向中對齊：
@@ -146,7 +241,7 @@ k、超連結
          件名稱或內容。最後以&lt;/A&gt;做為這來源標示語法的結尾。
    範例：&lt;A HREF="http://ind.ntou.edu.tw/"&gt;IND網路發展學會&lt;/A&gt;
          &lt;A HREF="mailto:www@ind.ntou.edu.tw"&gt;有意見請來信&lt;/A&gt;
-	 &lt;A HREF="ftp://ftp.ntou.edu.tw"&gt;海大FTP站&lt;/A&gt;
+   &lt;A HREF="ftp://ftp.ntou.edu.tw"&gt;海大FTP站&lt;/A&gt;
    備註：所謂URL是Uniform Resource Locator的縮寫，在中文裡暫且將它翻譯為共同
          性資源定址器.。
 ps. link="#RRGGBB" 可改變超文字的顏色，預設值為藍色。
@@ -157,16 +252,16 @@ l、秀圖標示符號
    語法：&lt;IMG SRC="檔案名" ALIGN=top/middle/bottom/left/right&gt;
    說明：秀圖標示符號IMG是為超文件中顯示合乎瀏覽器的圖形（例如：GIF或JPG圖形
          檔），而秀圖標示符號的用法是：
-	 &lt;IMG SRC="檔案名" ALIGN=top/middle/bottom/left/right&gt;
-         SRC	圖形來源指定，其屬性同於URL
-         ALIGN	指定圖文顯示的位置。
-                        top	圖示說明文字與圖形上方對齊。
-			middle	圖示說明文字與圖形中間對齊。
-			bottom	圖示說明文字與圖形下方對齊。
-			left	圖示靠左。
-			right	圖非靠右。
+   &lt;IMG SRC="檔案名" ALIGN=top/middle/bottom/left/right&gt;
+         SRC  圖形來源指定，其屬性同於URL
+         ALIGN  指定圖文顯示的位置。
+                        top 圖示說明文字與圖形上方對齊。
+      middle  圖示說明文字與圖形中間對齊。
+      bottom  圖示說明文字與圖形下方對齊。
+      left  圖示靠左。
+      right 圖非靠右。
    <a href="demol.htm">範例</a>：&lt;IMG SRC="test.gif" ALIGN=middle&gt;
-   ps.&lt;IMG SRC="test.gif" ALIGN=middle&gt Alt="酒井法子";其 Alt 屬性提供不看圖者的提示。
+   ps.&lt;IMG SRC="test.gif" ALIGN=middle&amp;gt Alt="酒井法子";其 Alt 屬性提供不看圖者的提示。
        幾個&lt;IMG &gt;的屬性:
         Border=???       設定圖的邊框厚度。
         Vspace=???       圖的垂直方向預留空白寬度。
@@ -256,97 +351,270 @@ METHOD:表示表單內容是利用何種管道傳送給CGI程式。有POST和GET
 
       TEXTAREA:它標示一個多行文字編輯區域，允許使用輸入資料。其屬性有:
 </pre>
-<table border=1>
-<tr><th>NAME</th><td>這個文字區域的名字。</td></tr>
-<tr><th>ROWS</th><td>這個文字區域顯示的行數。</td></tr>
-<tr><th>COLS</th><td>這個文字區域顯示的寬度，單位為字元數。</td></tr>
-<td ColSpan=2><a href="Demor1.htm">範例</a>:&lt;TEXTAREA NAME="comment" ROWS=4 COLS=50&gt;
-THIS IS THE SAMPLE TEXT
-&lt;/TEXTAREA&gt;
-</td>
-</table><pre>
+		<table summary='' border="1">
+			<tr>
+				<th>
+					NAME
+				</th>
+				<td>
+					這個文字區域的名字。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					ROWS
+				</th>
+				<td>
+					這個文字區域顯示的行數。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					COLS
+				</th>
+				<td>
+					這個文字區域顯示的寬度，單位為字元數。
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<a href="Demor1.htm">範例</a>:&lt;TEXTAREA NAME="comment" ROWS=4 COLS=50&gt; THIS IS THE SAMPLE TEXT &lt;/TEXTAREA&gt;
+				</td>
+			</tr>
+		</table>
+		<pre>
 
 
 SELECT:產生一個下拉式或捲軸式選單，其屬性有:
 </pre>
-<table border=1>
-<tr><th>NAME</th><td>這個選單輸入的名字。</td></tr>
-<tr><th>SIZE</th><td>選單呈現在螢幕上的大小，預設值為1，如果設成2以上，則變成捲軸式選單。</td></tr>
-<tr><th>MULTIPLE</th><td>多重選擇，如果用此屬性，不管SIZE為何，一律以捲軸式選單呈現。</td></tr>
-</table><pre>
+		<table summary='' border="1">
+			<tr>
+				<th>
+					NAME
+				</th>
+				<td>
+					這個選單輸入的名字。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					SIZE
+				</th>
+				<td>
+					選單呈現在螢幕上的大小，預設值為1，如果設成2以上，則變成捲軸式選單。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					MULTIPLE
+				</th>
+				<td>
+					多重選擇，如果用此屬性，不管SIZE為何，一律以捲軸式選單呈現。
+				</td>
+			</tr>
+		</table>
+		<pre>
 &lt;SELECT&gt;與&lt;/SELECT&gt;中間可以有許多選項，每一項皆以&lt;OPTION&gt;標示代表，
 OPTION屬性有:
 </pre>
-<table border=1>
-<tr><th>VALUE</th><td>如果選擇這選項，則這選項的傳回值和使用者在瀏覽器所見相同</td></tr>
-<tr><th>SELECTED</th><td>這使此選項定為預設值。</td></tr>
-</table><pre>
+		<table summary='' border="1">
+			<tr>
+				<th>
+					VALUE
+				</th>
+				<td>
+					如果選擇這選項，則這選項的傳回值和使用者在瀏覽器所見相同
+				</td>
+			</tr>
+			<tr>
+				<th>
+					SELECTED
+				</th>
+				<td>
+					這使此選項定為預設值。
+				</td>
+			</tr>
+		</table>
+		<pre>
 INPUT:
 這標示包含多種輸入方法，包括文字(TEXT)，密碼(PASSWORD)，勾選式清單(CHECKBOX)、
 單選式清單(RADIO)、清除(RESET)按鈕、送出(SUBMIT)按鈕，以及上傳檔案(FILE)。
 這些輸入方法以TYPE屬性來區別。
 </pre>
-<table border=1>
-<Caption>文字(TEXT)有關的屬性</Caption>
-<tr><th>NAME</th><td>輸入欄位的名字。</td></tr>
-<tr><th>SIZE</th><td>輸入欄位的大小。</td></tr>
-<tr><th>MAXLENGTH</th><td>最多容許輸入幾個字元。</td></tr>
-<tr><th>VALUE</th><td>預設值</td></tr>
-<td ColSpan=2>例如:輸入姓名:&lt;INPUT TYPE="text" NAME="name" SIZE=20&gt;</td>
-</table><pre>
-<BR>
-</pre>
-<table border=1>
-<Caption>密碼(PASSWORD)有關的屬性</Caption>
-<tr><th>NAME</th><td>輸入欄位的名字。</td></tr>
-<tr><th>SIZE</th><td>輸入欄位的大小。</td></tr>
-<tr><th>MAXLENGTH</th><td>最多容許輸入幾個字元。</td></tr>
-<tr><th>VALUE</th><td>預設值</td></tr>
-<td ColSpan=2>例如:輸入密碼:&lt;INPUT TYPE="password" NAME="passwd" MAXLENGTH=20&gt;</td>
-</table><pre>
-<BR>
-</pre>
-<table border=1>
-<Caption>勾選式清單(CHECKBOX)有關的屬性</Caption>
-<tr><th>NAME</th><td>欄位名字。</td></tr>
-<tr><th>VALUE</th><td>當此項目被勾選時，所傳回的值。</td></tr>
-<tr><th>CHECKED</th><td>將這欄位預設為被勾選。</td></tr>
-<td ColSpan=2>例如::&lt;INPUT TYPE="checkbox" NAME="check1" VALUE="html"&gt;是否學過HTML?</td>
-</table><pre>
-<BR>
-<BR>
-</pre>
-<table border=1>
-<Caption>單選式清單(RADIO)有關的屬性</Caption>
-<tr><th>NAME</th><td>欄位名字。</td></tr>
-<tr><th>VALUE</th><td>當此項目被勾選時，所傳回的值。</td></tr>
-<tr><th>CHECKED</th><td>將這欄位預設為被勾選。</td></tr>
-<td ColSpan=2>例如::&lt;INPUT TYPE="radio" NAME="sex" VALUE="male"&gt;男</td>
-</table><pre>
+		<table summary='' border="1">
+			<caption>
+				文字(TEXT)有關的屬性
+			</caption>
+			<tr>
+				<th>
+					NAME
+				</th>
+				<td>
+					輸入欄位的名字。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					SIZE
+				</th>
+				<td>
+					輸入欄位的大小。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					MAXLENGTH
+				</th>
+				<td>
+					最多容許輸入幾個字元。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					VALUE
+				</th>
+				<td>
+					預設值
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					例如:輸入姓名:&lt;INPUT TYPE="text" NAME="name" SIZE=20&gt;
+				</td>
+			</tr>
+		</table>
+		<pre>
+<br></pre>
+		<table summary='' border="1">
+			<caption>
+				密碼(PASSWORD)有關的屬性
+			</caption>
+			<tr>
+				<th>
+					NAME
+				</th>
+				<td>
+					輸入欄位的名字。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					SIZE
+				</th>
+				<td>
+					輸入欄位的大小。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					MAXLENGTH
+				</th>
+				<td>
+					最多容許輸入幾個字元。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					VALUE
+				</th>
+				<td>
+					預設值
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					例如:輸入密碼:&lt;INPUT TYPE="password" NAME="passwd" MAXLENGTH=20&gt;
+				</td>
+			</tr>
+		</table>
+		<pre>
+<br></pre>
+		<table summary='' border="1">
+			<caption>
+				勾選式清單(CHECKBOX)有關的屬性
+			</caption>
+			<tr>
+				<th>
+					NAME
+				</th>
+				<td>
+					欄位名字。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					VALUE
+				</th>
+				<td>
+					當此項目被勾選時，所傳回的值。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					CHECKED
+				</th>
+				<td>
+					將這欄位預設為被勾選。
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					例如::&lt;INPUT TYPE="checkbox" NAME="check1" VALUE="html"&gt;是否學過HTML?
+				</td>
+			</tr>
+		</table>
+		<pre>
+<br><br></pre>
+		<table summary='' border="1">
+			<caption>
+				單選式清單(RADIO)有關的屬性
+			</caption>
+			<tr>
+				<th>
+					NAME
+				</th>
+				<td>
+					欄位名字。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					VALUE
+				</th>
+				<td>
+					當此項目被勾選時，所傳回的值。
+				</td>
+			</tr>
+			<tr>
+				<th>
+					CHECKED
+				</th>
+				<td>
+					將這欄位預設為被勾選。
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					例如::&lt;INPUT TYPE="radio" NAME="sex" VALUE="male"&gt;男
+				</td>
+			</tr>
+		</table>
+		<pre>
 
 <a href="demor.htm">範例</a>：
 
-
-
-<font size=+1><b>三、 如何在IND上秀出自己的HOMEPAGE</b></font>
-
-a、利用telnet連上自己的帳號，並在自己的帳號下建立一個www子目錄。
-   例如：ind~>mkdir www（輸入mkdir www再按enter即可建立一個www子目錄）
-b、利用ftp程式把做好的HTML檔（如：＊.html或＊.htm檔）及圖形檔（如：
-   ＊.gif或＊.jpg檔）送到www這個目錄裡。注意：主頁一定要welcome.htm或
-   index.htm，而welcome.html及index.html也可以。
-c、再利用WWW瀏覽器（如：NETSCAPE或INTERNET EXPLORER）輸入自己的網址，
-   就可以看見自己的作品了。例如：http://ind.ntou.edu.tw/~sun。
-</pre>
-
-若有問題請來信<a href="mailto:orho@ind.ntou.edu.tw">orho@ind.ntou.edu.tw</a><p>
-<du>參考書籍：
-<li>輕輕鬆鬆自修學HTML
-<LI>HOME PAGE設計
-<li>WWW之HTML與CGI寫作大全
-<li>WWW入門、架站與系統維護
-</du>
-<BR>
-<BR>
-本講義原作者:蔡永熙 
-</body>
+</pre><font size="+1"><b>三、 如何在IND上秀出自己的HOMEPAGE</b></font> a、利用telnet連上自己的帳號，並在自己的帳號下建立一個www子目錄。 例如：ind~&gt;mkdir www（輸入mkdir www再按enter即可建立一個www子目錄） b、利用ftp程式把做好的HTML檔（如：＊.html或＊.htm檔）及圖形檔（如： ＊.gif或＊.jpg檔）送到www這個目錄裡。注意：主頁一定要welcome.htm或 index.htm，而welcome.html及index.html也可以。 c、再利用WWW瀏覽器（如：NETSCAPE或INTERNET EXPLORER）輸入自己的網址， 就可以看見自己的作品了。例如：http://ind.ntou.edu.tw/~sun。 若有問題請來信<a href="mailto:orho@ind.ntou.edu.tw">orho@ind.ntou.edu.tw</a> 參考書籍：
+		<ul>
+			<li>輕輕鬆鬆自修學HTML
+			</li>
+			<li>HOME PAGE設計
+			</li>
+			<li>WWW之HTML與CGI寫作大全
+			</li>
+			<li>WWW入門、架站與系統維護
+			</li>
+		</ul><br>
+		<br>
+		本講義原作者:蔡永熙
+	</body>
+</html>

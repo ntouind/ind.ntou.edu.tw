@@ -1,50 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<body bgcolor="#ffffff">
-<title>UCB Sendmail 8.8.3</title>
-<center>
-<h1>UCB Sendmail 8.8.3</h1>
-</center>
-<hr>
-<font color="#ff0000">WARNING!!!請先將您的 /usr/lib/sendmail 及 /usr/sbin/sendmail 備份</font>
-<pre>
-	抓回 sendmail.x.x.x.tar.gz ( 8.8.3 前皆有超級大 <a href="mailbug.html">bug</a>, 請勿使用 )
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>
+			UCB Sendmail 8.8.3
+		</title>
+	</head>
+	<body bgcolor="white">
+		<center>
+			<h1>
+				UCB Sendmail 8.8.3
+			</h1>
+		</center>
+		<hr>
+		<font color="red">WARNING!!!請先將您的 /usr/lib/sendmail 及 /usr/sbin/sendmail 備份</font>
+		<pre>
+  抓回 sendmail.x.x.x.tar.gz ( 8.8.3 前皆有超級大 <a href="mailbug.html">bug</a>, 請勿使用 )
 
-	修改 ~/sendmail-x.x.x/src/Makefiles/Makefile.OSF1
+  修改 ~/sendmail-x.x.x/src/Makefiles/Makefile.OSF1
 
 DBMDEF= -DNEWDB
 LIBS=   -ldbm -ldb -lresolv
 
-	之後切換到 ~sendmail-x.x.x/src 下, 執行
+  之後切換到 ~sendmail-x.x.x/src 下, 執行
 
 makesendmail
 
-	即會在 obj.OSF1.xxxx/ 造出 sendmail 檔, 接著產生 sendmail.cf
+  即會在 obj.OSF1.xxxx/ 造出 sendmail 檔, 接著產生 sendmail.cf
 
-	切換到 ~sendmail/cf 底下, 修改 cf/tcpproto.mc 裡
+  切換到 ~sendmail/cf 底下, 修改 cf/tcpproto.mc 裡
 
 OSTYPE(osf1)
 
-	修改 m4/cf.m4 內容, 將路徑更改為 ./ 而不是 ../
+  修改 m4/cf.m4 內容, 將路徑更改為 ./ 而不是 ../
 
 ifdef(`_CF_DIR_', ',
-        	felse(__file__, `__file__',
-                `Define(`_CF_DIR_', <font color="ff0000">./</font>')',
+          felse(__file__, `__file__',
+                `Define(`_CF_DIR_', <font color="red">./</font>')',
                 `Define(`_CF_DIR_',
 
-	接著執行 m4 , 產生堪用之 sendmail.cf
+  接著執行 m4 , 產生堪用之 sendmail.cf
 
-m4 m4/cf.m4 cf/tcpproto.mc > sendmail.cf
+m4 m4/cf.m4 cf/tcpproto.mc &gt; sendmail.cf
 
-	將 sendmail.cf cp 到 /etc/sendmail.cf , 接著執行
+  將 sendmail.cf cp 到 /etc/sendmail.cf , 接著執行
 
 /sbin/init.d/sendmail restart
 
-	看看系統正不正確, & check 一下 /var/adm/syslog.dated 裡的 mail.log
-	訊息, 若有錯誤, 請換回原先之 DEC sendmail, 或找人求救囉... !!!
+  看看系統正不正確, &amp; check 一下 /var/adm/syslog.dated 裡的 mail.log
+  訊息, 若有錯誤, 請換回原先之 DEC sendmail, 或找人求救囉... !!!
 
-	試著 telnet localhost smtp 直接 try sendmail 
+  試著 telnet localhost smtp 直接 try sendmail 
 
-ind:/usr/local/src/sendmail-8.8.3/cf/cf> telnet ind smtp
+ind:/usr/local/src/sendmail-8.8.3/cf/cf&gt; telnet ind smtp
 Trying 140.121.80.15...
 Connected to ind.ntou.edu.tw.
 Escape character is '^]'.
@@ -64,10 +73,11 @@ quit
 221 ind.ntou.edu.tw closing connection
 Connection closed by foreign host.
 
-	看看收不收得到信... !! 
+  看看收不收得到信... !! 
 </pre>
-<hr>
-<center>
-<a href="http://ind.ntou.edu.tw">[回主畫面]</a><a href="index.html">[回前畫面]</a><a href="http://ind.ntou.edu.tw/suggest/">[我有話要說]</a>
-</center>
+		<hr>
+		<center>
+			<a href="http://ind.ntou.edu.tw">[回主畫面]</a><a href="index.html">[回前畫面]</a><a href="http://ind.ntou.edu.tw/suggest/">[我有話要說]</a>
+		</center>
+	</body>
 </html>
