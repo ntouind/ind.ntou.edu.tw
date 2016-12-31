@@ -13,7 +13,7 @@ a:link, a:visited {
 
 a:hover, a:active {
         color:#5555FF;
-        ;text-decoration:underline;
+        text-decoration:underline;
 }
 
 #container {
@@ -22,7 +22,7 @@ a:hover, a:active {
 	margin-right:auto;
 	margin-top:5px;
 	margin-bottom:5px;
-	background-color:#FFFFFF;
+	background-color: white;
 }
 
 #header {
@@ -196,7 +196,7 @@ a:hover, a:active {
 	border-left:1px solid #C6D9EC;
 	border-right:1px solid #C6D9EC;
 	border-bottom:1px solid #C6D9EC;
-	background-color:#FAFAFA;
+	background-color: #FAFAFA;
 	padding:5px;
 	margin-bottom:10px;
 	font-size:14px;
@@ -215,7 +215,7 @@ a:hover, a:active {
 	clear:both;
 	width:920px;
 	height:180px;
-  font-family:Ubuntu, Arial, Helvetica, sans-serif;
+	font-family:Ubuntu, Arial, Helvetica, sans-serif;
 	font-size:12px;
 	color:#666666;
 	text-align:center;
@@ -226,4 +226,3 @@ a:hover, a:active {
 	float: left;
 	margin-left: 20px;
 }
-
