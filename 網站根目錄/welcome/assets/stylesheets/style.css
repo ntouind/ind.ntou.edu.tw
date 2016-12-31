@@ -69,15 +69,7 @@ header h1 {
     padding: 0 10px;
     background-color: #fff;
 }
-#store {
-    width: 0px;
-    height: 0px;
-    margin: 20px auto;
-    background-color: #fff;
-}
-#nyancat_img {
-    visibility: hidden;
-}
+
 /* /=Section }}} */
 
 /* Footer
