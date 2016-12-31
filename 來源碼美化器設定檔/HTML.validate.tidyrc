@@ -1,0 +1,15 @@
+// My HTML Tidy options for *HTML (for validation) //
+// This file is based on: https://github.com/Lin-Buo-Ren/My_Coding_Style
+// This version is currently based on HTML Tidy 5.2.0
+
+// Diagnostics options //
+// This option specifies what level of accessibility checking, if any, that Tidy should perform.
+accessibility-check: 0
+
+// Diagnostics options //
+// This option specifies if Tidy should display info-level messages.
+show-info: no
+
+// Pretty Print options //
+// This option specifies if Tidy should generate a pretty printed version of the markup. Note that Tidy won't generate a pretty printed version if it finds significant errors (see force-output).
+markup: no

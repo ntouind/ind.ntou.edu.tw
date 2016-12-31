@@ -1,0 +1,63 @@
+// My HTML Tidy options for *HTML (for cleaning non-standard or legacy usage) //
+// This file is based on: https://github.com/Lin-Buo-Ren/My_Coding_Style
+// This version is currently based on HTML Tidy 5.2.0
+
+// HTML, XHTML, XML options //
+// This option specifies if Tidy should add the XML declaration when outputting XML or XHTML.
+add-xml-decl: yes
+
+// This option specifies if Tidy should perform cleaning of some legacy presentational tags (currently <i>, <b>, <center> when enclosed within appropriate inline tags, and <font>). If set to yes then legacy tags will be replaced with CSS <style> tags and structural markup as appropriate.
+clean: yes
+
+// This option specifies the prefix that Tidy uses for styles rules.
+css-prefix: tidy
+
+// This option specifies if Tidy should replace numeric values in color attributes with HTML/XHTML color names where defined, e.g. replace #ffffff with white.
+replace-color: yes
+
+// Diagnostics options //
+// This option specifies if Tidy should display info-level messages.
+show-info: no
+
+// Pretty Print options //
+// This option specifies if Tidy should indent block-level tags.
+//
+// If set to auto Tidy will decide whether or not to indent the content of tags such as <title>, <h1>-<h6>, <li>, <td>, or <p> based on the content including a block-level element.
+//
+// Setting indent to yes can expose layout bugs in some browsers.
+//
+// Use the option indent-spaces to control the number of spaces or tabs output per level of indent, and indent-with-tabs to specify whether spaces or tabs are used.
+//
+// See also: indent-spaces
+indent: yes
+
+// This option specifies if Tidy should begin each attribute on a new line.
+indent-attributes: no
+
+// This option specifies if Tidy should indent with tabs instead of spaces, assuming indent is yes.
+indent-with-tabs: yes
+
+// This option specifies if Tidy should generate a pretty printed version of the markup. Note that Tidy won't generate a pretty printed version if it finds significant errors (see force-output).
+markup: yes
+
+// This option specifies the number of columns that Tidy uses between successive tab stops. It is used to map tabs to spaces when reading the input.
+tab-size: 2
+
+// This option specifies the right margin Tidy uses for line wrapping.
+//
+// Tidy tries to wrap lines so that they do not exceed this length.
+//
+// Set wrap to 0(zero) if you want to disable line wrapping.
+wrap: 0
+
+// Miscellaneous options //
+// This option specifies if Tidy should write back the tidied markup to the same file it read from.
+write-back: yes
+
+// This option specifies if Tidy should produce output even if errors are encountered.
+//
+// Use this option with care; if Tidy reports an error, this means Tidy was not able to (or is not sure how to) fix the error, so the resulting output may not reflect your intention.
+force-output: no
+
+// This option specifies if Tidy should add a meta element to the document head to indicate that the document has been tidied.
+tidy-mark: no
