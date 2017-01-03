@@ -32,7 +32,7 @@ set -o pipefail
 # fi
 
 # Redirect output to stderr.
-exec 1>&2
+#exec 1>&2
 
 # 檢查新修訂版準備區域中有無 (X)HTML 檔案，如果有的話就傳給 HTML Tidy 進行標記語法檢查
 git diff --name-only --cached | grep --extended-regexp '.(htm|html|xhtml)$' &>/dev/null
