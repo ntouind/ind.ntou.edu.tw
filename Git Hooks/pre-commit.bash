@@ -38,7 +38,7 @@ exec 1>&2
 git diff --name-only --cached | grep --extended-regexp '.(htm|html|xhtml)$' &>/dev/null
 if [ $? -eq 0 ]; then
 	printf "新修訂版提交前掛勾程式：正在檢查 (X)HTML 標記語法……\n"
-	git diff --name-only --cached | grep --extended-regexp '.(htm|html|xhtml)$' | xargs tidy -config "來源碼美化器設定檔/HTML.validate.tidyrc"
+	git diff --name-only --cached | grep --extended-regexp '.(htm|html|xhtml)$' | xargs --verbose --max-args=1 tidy -config "來源碼美化器設定檔/HTML.validate.tidyrc"
 	if [ $? -ne 0 ];then
 		printf "新修訂版提交前掛勾程式：錯誤：語法檢查失敗！\n" 1>&2
 		printf "新修訂版提交前掛勾程式：錯誤：提交程序將被中止。\n"
