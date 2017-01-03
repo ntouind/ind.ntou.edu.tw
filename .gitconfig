@@ -2,4 +2,4 @@
 	sharedrepository = 1
 
 [filter "enforce_coding_style_html"]
-	clean = tidy -config \"來源碼美化器設定檔/HTML.tidyrc\"
+	clean = \"Git Clean and Smudge Filters/clean-html.bash\"
