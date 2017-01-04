@@ -15,10 +15,10 @@
 	background-color: #EAEAFF;
 }
 
-.table-staff-list #col-staff-list-category{
+.table-staff-list .col-staff-list-category{
 	width: 40%;
 }
 
-.table-staff-list #col-staff-list-names{
+.table-staff-list .col-staff-list-names{
 	/* width: 100% - .table-staff-list #col-staff-list-category->width; */
 }
