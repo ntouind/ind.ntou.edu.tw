@@ -221,8 +221,3 @@ a:hover, a:active {
 	text-align:center;
 	background-image:url(../images/bgfooter.png);
 }
-
-#footer img{
-	float: left;
-	margin-left: 20px;
-}
