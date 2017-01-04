@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+ <!DOCTYPE html>
+ <html>
 	<head>
+		<meta charset="UTF-8" />
+		<!-- 林博仁：因為 JQuery .load() 疑似不支援主體為 XHTML 的關係所以請不要換成 XHTML  -->
 		<meta name="google-site-verification" content="sZdbkph1J8a2TT0nwZUxQvOJR-UnsXfta68BlWUjRp4" />
 		<title>
 			國立臺灣海洋大學網路發展協會
@@ -37,7 +37,7 @@
 		<div id="container">
 			<div id="header">
 				<div id="headinfo">
-					<a href="/">首頁</a> | <a href="#" onclick="$('#content').load('pages/contact.xhtml');"><span id="contact-us-emphasis">聯絡我們</span></a>
+					<a href="/">首頁</a> | <a href="#" onclick="$('#content').load('pages/contact.xhtml #page_content');"><span id="contact-us-emphasis">聯絡我們</span></a>
 				</div>
 			</div>
 			<div id="main">
@@ -47,19 +47,19 @@
 							<strong>關於網路發展協會</strong>
 						</li>
 						<li id="about">
-							<a href="#" onclick="$('#content').load('pages/about.xhtml body');">社團簡介</a>
+							<a href="#" onclick="$('#content').load('pages/about.xhtml #page_content');">社團簡介</a>
 						</li>
 						<li id="activity">
-							<a href="#" onclick="$('#content').load('pages/activity.xhtml');">活動資訊</a>
+							<a href="#" onclick="$('#content').load('pages/activity.xhtml #page_content');">活動資訊</a>
 						</li>
 						<li id="organization">
-							<a href="#" onclick="$('#content').load('pages/organization.xhtml');">組織章程</a>
+							<a href="#" onclick="$('#content').load('pages/organization.xhtml #page_content');">組織章程</a>
 						</li>
 						<li id="member">
-							<a href="#" onclick="$('#content').load('pages/member.xhtml');">歷屆幹部群</a>
+							<a href="#" onclick="$('#content').load('pages/member.xhtml #page_content');">歷屆幹部群</a>
 						</li>
 						<li id="document">
-							<a href="#" onclick="$('#content').load('pages/document.xhtml');">文件資料</a>
+							<a href="#" onclick="$('#content').load('pages/document.xhtml #page_content');">文件資料</a>
 						</li>
 					</ul>
 				</div>
