@@ -3,3 +3,9 @@
 
 [filter "enforce_coding_style_html"]
 	clean = \"Git Clean and Smudge Filters/clean-html.bash\"
+
+[filter "clean-css-cssbeautify"]
+	clean = \"Git Clean and Smudge Filters/clean-css.cssbeautify.bash\"
+
+[filter "clean-css-csstidy"]
+	clean = \"Git Clean and Smudge Filters/clean-css.csstidy.bash\"

@@ -16,3 +16,5 @@
 *.html filter=enforce_coding_style_html
 *.xhtml filter=enforce_coding_style_html
 *.htm filter=enforce_coding_style_html
+*.css filter=clean-css-cssbeautify
+*.CSS filter=clean-css-cssbeautify
