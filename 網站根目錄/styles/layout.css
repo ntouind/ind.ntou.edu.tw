@@ -121,11 +121,9 @@ a:hover, a:active {
 	padding-right:19px;
 	width:720px;
 	float:right;
-	padding-bottom:40px;
 }
 
 #content #ann {
-	height:200px;
 	margin-right:20px;
 	font-size:14px;
 }
@@ -143,8 +141,8 @@ a:hover, a:active {
 	 * 這裡IE 6只看懂height:120px;而非IE 6的瀏覽器會忽略height:120px;
 	*/
 	height:auto !important;
-	height:120px;
-	min-height:120px;
+	height:60px;
+	min-height:60px;
 }
 
 #dropdown {
